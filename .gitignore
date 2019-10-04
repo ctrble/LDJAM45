@@ -1,3 +1,9 @@
+# Base
+.DS_Store
+.vscode
+*.mov
+
+# Unity
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
