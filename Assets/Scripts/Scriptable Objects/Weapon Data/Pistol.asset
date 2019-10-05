@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbacb6f4b194e4839a613b21ce584180, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  weaponName: Pistol
-  icon: {fileID: 21300000, guid: aed707c66d4814fbbb5bf602bfd037d6, type: 3}
+  itemName: Pistol
+  itemIcon: {fileID: 21300000, guid: aed707c66d4814fbbb5bf602bfd037d6, type: 3}
   attackDamage: 5
   attackRange: 20
   attackInterval: 0.25

@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour {
   }
 
   void Update() {
-    ShotTimer();
+    AttackTimer();
   }
 
   public void SelectWeapon() {
@@ -39,11 +39,6 @@ public class Weapon : MonoBehaviour {
   }
 
   public void UseWeapon() {
-    // Debug.Log(weaponData.WeaponName);
-    // Debug.Log(weaponData.Icon.name);
-    // Debug.Log(weaponData.AttackDamage);
-    // Debug.Log(weaponData.AttackRange);
-
     if (canAttack) {
       canAttack = false;
 
@@ -53,8 +48,9 @@ public class Weapon : MonoBehaviour {
 
       bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
       if (hitCast) {
-        Debug.Log(hit.transform.name);
         Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+
+        WeaponEffect(hit.transform.gameObject);
       }
       else {
         Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
@@ -62,7 +58,28 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void ShotTimer() {
+  void WeaponEffect(GameObject hitObject) {
+    switch (weaponData.ItemName) {
+      case "Fists":
+        FistsEffect(hitObject);
+        break;
+      case "Pistol":
+        PistolEffect(hitObject);
+        break;
+      default:
+        break;
+    }
+  }
+
+  void FistsEffect(GameObject target) {
+    Debug.Log("i'm fists " + target.name);
+  }
+
+  void PistolEffect(GameObject target) {
+    Debug.Log("i'm a pistol " + target.name);
+  }
+
+  void AttackTimer() {
     if (!canAttack) {
       timeRemaining -= Time.deltaTime;
       if (timeRemaining <= 0f) {

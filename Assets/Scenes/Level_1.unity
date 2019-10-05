@@ -658,7 +658,7 @@ GameObject:
   - component: {fileID: 937681785}
   - component: {fileID: 937681786}
   m_Layer: 5
-  m_Name: Weapon Canvas
+  m_Name: Item Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,11 +673,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 937681779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cd3c0ddef05a49f39b8bbdaf0a8287e, type: 3}
+  m_Script: {fileID: 11500000, guid: 67359201742e549568279f73411b1c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: {fileID: 622859233}
-  weaponIcon: {fileID: 1627443049}
+  itemName: {fileID: 622859233}
+  itemIcon: {fileID: 1627443049}
 --- !u!114 &937681781
 MonoBehaviour:
   m_ObjectHideFlags: 0
