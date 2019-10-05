@@ -99,6 +99,10 @@ public class Player_Actions : MonoBehaviour {
     }
   }
 
+  void StealItem() {
+
+  }
+
   void UseItem() {
     Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
     if (currentWeapon != null) {
@@ -108,7 +112,7 @@ public class Player_Actions : MonoBehaviour {
 
   private void OnTriggerEnter(Collider other) {
     if (other.CompareTag("Item")) {
-      Debug.Log("pickup: " + other.name);
+      Debug.Log("can pickup: " + other.name);
 
       PickupItem(other);
     }

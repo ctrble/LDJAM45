@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour {
   void WeaponEffect() {
     switch (weaponData.ItemName) {
       case "Fists":
-        HitScanBullet();
+        HitScanBullet(true);
         break;
       case "Pistol":
         HitScanBullet();
@@ -58,7 +58,19 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void HitScanBullet() {
+  public void DropWeapon(Transform item) {
+    Debug.Log("dude, drop it! " + item.name);
+    item.parent = null;
+  }
+
+  void DisarmEnemy(GameObject enemy) {
+    Weapon weapon = enemy.GetComponentInChildren<Weapon>();
+    if (weapon != null && weapon.CompareTag("Item")) {
+      weapon.DropWeapon(weapon.transform);
+    }
+  }
+
+  void HitScanBullet(bool disarm = false) {
     RaycastHit hit;
     Vector3 attackPosition = mainCamera.transform.position;
     Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
@@ -71,6 +83,11 @@ public class Weapon : MonoBehaviour {
       Entity entity = hit.transform.GetComponent<Entity>();
       if (entity != null) {
         entity.Damage(weaponData.AttackDamage);
+
+        // should they be disarmed?
+        if (disarm) {
+          DisarmEnemy(hit.transform.gameObject);
+        }
       }
     }
     else {
