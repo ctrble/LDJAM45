@@ -19,6 +19,7 @@ public class Player_Actions : MonoBehaviour {
 
   void Update() {
     GetInput();
+    Attack();
   }
 
   void GetInput() {
@@ -26,6 +27,9 @@ public class Player_Actions : MonoBehaviour {
   }
 
   void Attack() {
-
+    if (primaryAttack) {
+      Weapon currentWeapon = weaponObject.GetComponentInChildren<Weapon>();
+      currentWeapon.UseWeapon();
+    }
   }
 }

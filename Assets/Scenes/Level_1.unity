@@ -129,6 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 459602599}
+  - component: {fileID: 459602600}
   m_Layer: 0
   m_Name: Fists
   m_TagString: Untagged
@@ -150,6 +151,19 @@ Transform:
   m_Father: {fileID: 1397509392}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &459602600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459602598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdfff52df61b49a9ab4bf50e5afa1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: ec71484c74ca24ae3b6ef658323aea42, type: 2}
 --- !u!43 &586806536
 Mesh:
   m_ObjectHideFlags: 0
