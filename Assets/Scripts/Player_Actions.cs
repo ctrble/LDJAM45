@@ -91,16 +91,14 @@ public class Player_Actions : MonoBehaviour {
     // only add it if we don't already have it
     if (!ItemHeld(item.gameObject)) {
       item.transform.parent = inventoryObject.transform;
+      item.transform.localPosition = Vector3.zero;
+      item.transform.localRotation = Quaternion.identity;
       heldItems.Add(item.gameObject);
       ChangeItem();
     }
     else {
       Debug.Log("already got one");
     }
-  }
-
-  void StealItem() {
-
   }
 
   void UseItem() {

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon_Controller : MonoBehaviour {
+public class Item_Physics : MonoBehaviour {
 
   public Rigidbody itemBody;
   public BoxCollider boxCollider;
   public SphereCollider sphereCollider;
   public float pickupInterval = 0.5f;
   public float dropForce = 0.5f;
+  private bool hasParent;
 
   void OnEnable() {
     if (itemBody == null) {
@@ -24,7 +25,7 @@ public class Weapon_Controller : MonoBehaviour {
     }
 
     // init physics on if there's no parent
-    bool hasParent = transform.parent != null;
+    hasParent = transform.parent != null;
     EnablePhysics(!hasParent);
     sphereCollider.enabled = !hasParent;
   }

@@ -17,3 +17,5 @@ MonoBehaviour:
   attackDamage: 5
   attackRange: 20
   attackInterval: 0.25
+  maxAmmo: 12
+  remainingAmmo: 12
