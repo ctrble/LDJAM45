@@ -12,6 +12,8 @@ public class Weapon_Data : Item {
   [SerializeField]
   private float attackInterval;
   [SerializeField]
+  private bool infiniteAmmo;
+  [SerializeField]
   private int maxAmmo;
   [SerializeField]
   private int remainingAmmo;
@@ -31,6 +33,12 @@ public class Weapon_Data : Item {
   public float AttackInterval {
     get {
       return attackInterval;
+    }
+  }
+
+  public bool InfiniteAmmo {
+    get {
+      return infiniteAmmo;
     }
   }
 
