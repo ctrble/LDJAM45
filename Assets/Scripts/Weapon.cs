@@ -41,51 +41,39 @@ public class Weapon : MonoBehaviour {
   public void UseWeapon() {
     if (canAttack) {
       canAttack = false;
-
-      RaycastHit hit;
-      Vector3 attackPosition = mainCamera.transform.position;
-      Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
-
-      bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
-      if (hitCast) {
-        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
-
-        WeaponEffect(hit.transform.gameObject);
-      }
-      else {
-        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
-      }
+      WeaponEffect();
     }
   }
 
-  void WeaponEffect(GameObject hitObject) {
+  void WeaponEffect() {
     switch (weaponData.ItemName) {
       case "Fists":
-        FistsEffect(hitObject);
+        HitScanBullet();
         break;
       case "Pistol":
-        PistolEffect(hitObject);
+        HitScanBullet();
         break;
       default:
         break;
     }
   }
 
-  void FistsEffect(GameObject target) {
-    Debug.Log("i'm fists " + target.name);
+  void HitScanBullet() {
+    RaycastHit hit;
+    Vector3 attackPosition = mainCamera.transform.position;
+    Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
 
-    Entity entity = target.GetComponent<Entity>();
-    if (entity != null) {
-      entity.Damage(weaponData.AttackDamage);
+    bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
+    if (hitCast) {
+      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+
+      Entity entity = hit.transform.GetComponent<Entity>();
+      if (entity != null) {
+        entity.Damage(weaponData.AttackDamage);
+      }
     }
-  }
-
-  void PistolEffect(GameObject target) {
-    Debug.Log("i'm a pistol " + target.name);
-
-    Entity entity = target.GetComponent<Entity>();
-    if (entity != null) {
-      entity.Damage(weaponData.AttackDamage);
+    else {
+      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
     }
   }
 
