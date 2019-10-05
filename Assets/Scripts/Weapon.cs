@@ -8,6 +8,10 @@ public class Weapon : MonoBehaviour {
   [SerializeField]
   private Game_Event OnWeaponSelected;
 
+  void OnEnable() {
+    SelectWeapon();
+  }
+
   public void SelectWeapon() {
     OnWeaponSelected.Raise();
   }

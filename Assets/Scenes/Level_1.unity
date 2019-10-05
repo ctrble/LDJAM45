@@ -1504,8 +1504,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdef06949cfa4bccb059c71c9723ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponObject: {fileID: 1397509391}
-  allWeapons: []
+  inventoryObject: {fileID: 1397509391}
+  heldItems: []
   primaryAttack: 0
 --- !u!1 &1397509391
 GameObject:
@@ -1517,7 +1517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1397509392}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
