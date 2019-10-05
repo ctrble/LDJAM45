@@ -30,6 +30,7 @@ public class Player_Actions : MonoBehaviour {
     if (primaryAttack) {
       Weapon currentWeapon = weaponObject.GetComponentInChildren<Weapon>();
       currentWeapon.UseWeapon();
+      currentWeapon.SelectWeapon();
     }
   }
 }
