@@ -18,18 +18,23 @@ public class Player_Actions : MonoBehaviour {
     }
 
     currentItem = 0;
+    ChangeWeapon();
   }
 
   void Update() {
     GetInput();
-    ChangeWeapon();
+
+    if (!heldItems[currentItem].activeInHierarchy) {
+      ChangeWeapon();
+    }
+
     Attack();
   }
 
   void GetInput() {
     primaryAttack = Input.GetButton("Fire1");
 
-    // change weapons, but only if it's there
+    // change weapons, but only if there's one to change to
     if (Input.GetButtonDown("Item1") && heldItems.Count >= 1) {
       Debug.Log("change to item 1");
       currentItem = 0;
@@ -58,16 +63,7 @@ public class Player_Actions : MonoBehaviour {
 
   void ChangeWeapon() {
     for (int i = 0; i < heldItems.Count; i++) {
-      if (currentItem == i) {
-        if (!heldItems[i].activeInHierarchy) {
-          heldItems[i].SetActive(true);
-        }
-      }
-      else {
-        if (heldItems[i].activeInHierarchy) {
-          heldItems[i].SetActive(false);
-        }
-      }
+      heldItems[i].SetActive(currentItem == i);
     }
   }
 
