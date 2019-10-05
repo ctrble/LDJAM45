@@ -38,12 +38,18 @@ public class Player_Controller : MonoBehaviour {
   }
 
   void MovePlayer() {
+    Vector3 input = playerInput;
+    Vector3 worldDirection = transform.TransformDirection(input);
+
+    // zero y to prevent moving up when we don't want to
+    worldDirection.y = 0;
+
     if (characterController.isGrounded) {
-      // move around! front, back, strafe
-      moveDirection = playerInput * speed;
+      // move around: front, back, strafe
+      moveDirection = worldDirection * speed;
 
       // jump, since we can
-      if (playerInput.y > 0) {
+      if (input.y > 0) {
         moveDirection.y = jumpSpeed;
       }
     }
@@ -51,8 +57,7 @@ public class Player_Controller : MonoBehaviour {
     // apply gravity
     moveDirection.y -= gravity * Time.deltaTime;
 
-    // adjust to transform.forward
-    moveDirection = transform.TransformDirection(moveDirection);
+    // finally, move
     characterController.Move(moveDirection * Time.deltaTime);
   }
 
