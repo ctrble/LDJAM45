@@ -8,10 +8,10 @@ public class Player_Actions : MonoBehaviour {
   private int currentItem;
   public List<GameObject> heldItems;
   [SerializeField]
-  private bool primaryAttack;
+  private bool primaryAction;
 
   void Start() {
-    primaryAttack = false;
+    primaryAction = false;
 
     foreach (Transform child in inventoryObject.transform) {
       heldItems.Add(child.gameObject);
@@ -32,7 +32,7 @@ public class Player_Actions : MonoBehaviour {
   }
 
   void GetInput() {
-    primaryAttack = Input.GetButton("Fire1");
+    primaryAction = Input.GetButton("Fire1");
 
     // change weapons, but only if there's one to change to
     if (Input.GetButtonDown("Item1") && heldItems.Count >= 1) {
@@ -68,9 +68,11 @@ public class Player_Actions : MonoBehaviour {
   }
 
   void Attack() {
-    if (primaryAttack) {
+    if (primaryAction) {
       Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
-      currentWeapon.UseWeapon();
+      if (currentWeapon != null) {
+        currentWeapon.UseWeapon();
+      }
     }
   }
 }

@@ -73,10 +73,20 @@ public class Weapon : MonoBehaviour {
 
   void FistsEffect(GameObject target) {
     Debug.Log("i'm fists " + target.name);
+
+    Entity entity = target.GetComponent<Entity>();
+    if (entity != null) {
+      entity.Damage(weaponData.AttackDamage);
+    }
   }
 
   void PistolEffect(GameObject target) {
     Debug.Log("i'm a pistol " + target.name);
+
+    Entity entity = target.GetComponent<Entity>();
+    if (entity != null) {
+      entity.Damage(weaponData.AttackDamage);
+    }
   }
 
   void AttackTimer() {
