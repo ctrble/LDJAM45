@@ -9,24 +9,23 @@ public class Item_Canvas : MonoBehaviour {
   [SerializeField]
   private Image itemIcon;
   [SerializeField]
-  private Text maxAmmo;
-  [SerializeField]
   private Text remainingAmmo;
+  [SerializeField]
+  private Text maxAmmo;
 
   public void UpdateDisplayUI(Weapon_Data weaponData) {
     itemName.text = weaponData.ItemName;
     itemIcon.sprite = weaponData.ItemIcon;
     if (weaponData.InfiniteAmmo) {
-      // maxAmmo.gameObject.SetActive(false);
-      // remainingAmmo.gameObject.SetActive(false);
-      maxAmmo.text = "∞";
       remainingAmmo.text = "∞";
+      maxAmmo.text = "∞";
     }
     else {
-      // maxAmmo.gameObject.SetActive(true);
-      // remainingAmmo.gameObject.SetActive(true);
       maxAmmo.text = weaponData.MaxAmmo.ToString();
-      remainingAmmo.text = weaponData.RemainingAmmo.ToString();
     }
+  }
+
+  public void UpdateRemainingAmmo(int ammo) {
+    remainingAmmo.text = ammo.ToString();
   }
 }

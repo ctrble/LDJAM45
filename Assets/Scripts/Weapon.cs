@@ -7,6 +7,11 @@ public class Weapon : MonoBehaviour {
   private Weapon_Data weaponData;
   [SerializeField]
   private Game_Event OnWeaponSelected;
+  public Item_Canvas itemCanvas;
+  // [SerializeField]
+  // private Game_Event OnAmmoChanged;
+  // [SerializeField]
+  // private Game_Event OnPistolAmmoChanged;
   public LayerMask hitLayer;
   private Camera mainCamera;
   public Transform crosshairs;
@@ -14,9 +19,15 @@ public class Weapon : MonoBehaviour {
   private float timeRemaining;
   [SerializeField]
   private bool canAttack;
+  public int remainingAmmo;
 
   void OnEnable() {
     SelectWeapon();
+
+    if (itemCanvas == null) {
+      itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
+    }
+    ChangeAmmo(remainingAmmo);
 
     if (mainCamera == null) {
       mainCamera = Camera.main;
@@ -55,6 +66,13 @@ public class Weapon : MonoBehaviour {
         break;
       default:
         break;
+    }
+  }
+
+  public void ChangeAmmo(int amount) {
+    if (!weaponData.InfiniteAmmo) {
+      remainingAmmo += amount;
+      itemCanvas.UpdateRemainingAmmo(remainingAmmo);
     }
   }
 

@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 202e8a85102924d1cbda442d309a47fd, type: 2}
   OnWeaponSelected: {fileID: 11400000, guid: e742953c5c6a14d3c9816d8ab6c23eea, type: 2}
+  OnPistolAmmoChanged: {fileID: 11400000, guid: 94f3234e35e5440de8ecea0171b08ae8,
+    type: 2}
   hitLayer:
     serializedVersion: 2
     m_Bits: 512

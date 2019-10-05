@@ -89,15 +89,36 @@ public class Player_Actions : MonoBehaviour {
     item.enabled = false;
 
     // only add it if we don't already have it
-    if (!ItemHeld(item.gameObject)) {
-      item.transform.parent = inventoryObject.transform;
-      item.transform.localPosition = Vector3.zero;
-      item.transform.localRotation = Quaternion.identity;
-      heldItems.Add(item.gameObject);
-      ChangeItem();
+    Ammo ammo = item.gameObject.GetComponent<Ammo>();
+    Weapon weapon = item.gameObject.GetComponent<Weapon>();
+
+    if (ammo != null) {
+      // consume ammo
+      int amount = ammo.amount;
+      Debug.Log("it's ammo! " + amount);
+
+      Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
+      if (currentWeapon != null) {
+        currentWeapon.ChangeAmmo(amount);
+      }
+
+      item.gameObject.SetActive(false);
+    }
+    else if (weapon != null) {
+      // pickup weapon
+      if (!ItemHeld(item.gameObject)) {
+        item.transform.parent = inventoryObject.transform;
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        heldItems.Add(item.gameObject);
+        ChangeItem();
+      }
+      else {
+        Debug.Log("already got one");
+      }
     }
     else {
-      Debug.Log("already got one");
+      Debug.Log("what's this?");
     }
   }
 

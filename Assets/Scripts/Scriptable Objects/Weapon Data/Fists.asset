@@ -17,3 +17,6 @@ MonoBehaviour:
   attackDamage: 1
   attackRange: 2
   attackInterval: 0.5
+  infiniteAmmo: 1
+  maxAmmo: 0
+  remainingAmmo: 0

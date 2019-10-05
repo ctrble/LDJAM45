@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Crosshairs
   - Item
+  - Item Canvas
   layers:
   - Default
   - TransparentFX
