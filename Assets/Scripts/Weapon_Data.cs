@@ -12,6 +12,8 @@ public class Weapon_Data : ScriptableObject {
   private int attackDamage;
   [SerializeField]
   private int attackRange;
+  [SerializeField]
+  private float attackInterval;
 
   public string WeaponName {
     get {
@@ -34,6 +36,12 @@ public class Weapon_Data : ScriptableObject {
   public int AttackRange {
     get {
       return attackRange;
+    }
+  }
+
+  public float AttackInterval {
+    get {
+      return attackInterval;
     }
   }
 }

@@ -10,6 +10,10 @@ public class Weapon : MonoBehaviour {
   public LayerMask hitLayer;
   private Camera mainCamera;
   public Transform crosshairs;
+  [SerializeField]
+  private float timeRemaining;
+  [SerializeField]
+  private bool canAttack;
 
   void OnEnable() {
     SelectWeapon();
@@ -21,6 +25,13 @@ public class Weapon : MonoBehaviour {
     if (crosshairs == null) {
       crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
     }
+
+    timeRemaining = weaponData.AttackInterval;
+    canAttack = true;
+  }
+
+  void Update() {
+    ShotTimer();
   }
 
   public void SelectWeapon() {
@@ -33,17 +44,31 @@ public class Weapon : MonoBehaviour {
     // Debug.Log(weaponData.AttackDamage);
     // Debug.Log(weaponData.AttackRange);
 
-    RaycastHit hit;
-    Vector3 attackPosition = mainCamera.transform.position;
-    Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
+    if (canAttack) {
+      canAttack = false;
 
-    bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
-    if (hitCast) {
-      Debug.Log(hit.transform.name);
-      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+      RaycastHit hit;
+      Vector3 attackPosition = mainCamera.transform.position;
+      Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
+
+      bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
+      if (hitCast) {
+        Debug.Log(hit.transform.name);
+        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+      }
+      else {
+        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
+      }
     }
-    else {
-      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
+  }
+
+  void ShotTimer() {
+    if (!canAttack) {
+      timeRemaining -= Time.deltaTime;
+      if (timeRemaining <= 0f) {
+        canAttack = true;
+        timeRemaining = weaponData.AttackInterval;
+      }
     }
   }
 }
