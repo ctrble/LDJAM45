@@ -13,22 +13,22 @@ public class Player_Actions : MonoBehaviour {
   void Start() {
     primaryAction = false;
 
-    foreach (Transform child in inventoryObject.transform) {
-      heldItems.Add(child.gameObject);
-    }
+    GetHeldItems();
 
     currentItem = 0;
-    ChangeWeapon();
+    ChangeItem();
   }
 
   void Update() {
     GetInput();
 
     if (!heldItems[currentItem].activeInHierarchy) {
-      ChangeWeapon();
+      ChangeItem();
     }
 
-    Attack();
+    if (primaryAction) {
+      UseItem();
+    }
   }
 
   void GetInput() {
@@ -61,18 +61,56 @@ public class Player_Actions : MonoBehaviour {
     }
   }
 
-  void ChangeWeapon() {
+  void GetHeldItems() {
+    foreach (Transform child in inventoryObject.transform) {
+      heldItems.Add(child.gameObject);
+    }
+  }
+
+  void ChangeItem() {
     for (int i = 0; i < heldItems.Count; i++) {
       heldItems[i].SetActive(currentItem == i);
     }
   }
 
-  void Attack() {
-    if (primaryAction) {
-      Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
-      if (currentWeapon != null) {
-        currentWeapon.UseWeapon();
+  bool ItemHeld(GameObject item) {
+    bool alreadyHeld = false;
+    for (int i = 0; i < heldItems.Count; i++) {
+      if (heldItems[i].name == item.name) {
+        alreadyHeld = true;
+        break;
       }
+    }
+    return alreadyHeld;
+  }
+
+  void PickupItem(Collider item) {
+    // turn off the collider and item object
+    item.enabled = false;
+
+    // only add it if we don't already have it
+    if (!ItemHeld(item.gameObject)) {
+      item.transform.parent = inventoryObject.transform;
+      heldItems.Add(item.gameObject);
+      ChangeItem();
+    }
+    else {
+      Debug.Log("already got one");
+    }
+  }
+
+  void UseItem() {
+    Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
+    if (currentWeapon != null) {
+      currentWeapon.UseWeapon();
+    }
+  }
+
+  private void OnTriggerEnter(Collider other) {
+    if (other.CompareTag("Item")) {
+      Debug.Log("pickup: " + other.name);
+
+      PickupItem(other);
     }
   }
 }

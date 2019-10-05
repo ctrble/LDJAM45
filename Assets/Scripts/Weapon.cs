@@ -66,6 +66,7 @@ public class Weapon : MonoBehaviour {
     bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
     if (hitCast) {
       Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+      Debug.Log("hit: " + hit.transform.name);
 
       Entity entity = hit.transform.GetComponent<Entity>();
       if (entity != null) {

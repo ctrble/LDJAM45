@@ -120,57 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &556380109
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 556380110}
-  - component: {fileID: 556380111}
-  m_Layer: 0
-  m_Name: Pistol
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &556380110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556380109}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1397509392}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &556380111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556380109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bdfff52df61b49a9ab4bf50e5afa1b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 202e8a85102924d1cbda442d309a47fd, type: 2}
-  OnWeaponSelected: {fileID: 11400000, guid: e742953c5c6a14d3c9816d8ab6c23eea, type: 2}
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  crosshairs: {fileID: 0}
-  timeRemaining: 0
-  canAttack: 0
 --- !u!43 &586806536
 Mesh:
   m_ObjectHideFlags: 0
@@ -1435,6 +1384,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1188797618
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3107092021487743109, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_Name
+      value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743109, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107092021487743110, guid: 809692443cd644116827d2db19ced8c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 809692443cd644116827d2db19ced8c7, type: 3}
 --- !u!1 &1306525591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6574577701587342041, guid: b8191c9e4ecc649dc93c9e0284130037,
@@ -1461,12 +1484,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   armor: 0
---- !u!4 &1397509392 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1397509392, guid: b8191c9e4ecc649dc93c9e0284130037,
-    type: 3}
-  m_PrefabInstance: {fileID: 5918411537361254078}
+--- !u!54 &1306525599
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306525591}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1627443048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,6 +1664,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1838579249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3107092021487743109, guid: 809692443cd644116827d2db19ced8c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1188797618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1838579250
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838579249}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2045493112
 GameObject:
   m_ObjectHideFlags: 0
