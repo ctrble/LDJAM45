@@ -20,6 +20,9 @@ public class Enemy_Movement : MonoBehaviour {
   private float timeRemaining;
   [SerializeField]
   private bool changeStrafeDirection;
+  private Vector3 lastPosition;
+  [SerializeField]
+  private float navSpeed;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -32,11 +35,18 @@ public class Enemy_Movement : MonoBehaviour {
 
     retreating = false;
     navAgent.destination = player.position;
+    lastPosition = transform.position;
   }
 
   void Update() {
     // face the player
     transform.LookAt(player);
+
+    // about how fast is this thing
+    navSpeed = Mathf.Lerp(navSpeed, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.5f);
+    if (navSpeed <= 0.2f) {
+      Strafe();
+    }
 
     currentDistanceFromPlayer = (transform.position - player.position).magnitude;
 
@@ -49,17 +59,14 @@ public class Enemy_Movement : MonoBehaviour {
     }
   }
 
+  void LateUpdate() {
+    lastPosition = transform.position;
+  }
+
   void FollowPlayer() {
     retreating = false;
     navAgent.autoBraking = true;
     navAgent.stoppingDistance = maxDistanceFromPlayer;
-
-    float navSpeed = navAgent.velocity.magnitude;
-    Debug.Log(navSpeed);
-
-    if (navSpeed <= 0.2f) {
-      Strafe();
-    }
 
     navAgent.destination = player.position;
   }
