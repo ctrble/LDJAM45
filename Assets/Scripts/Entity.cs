@@ -6,8 +6,11 @@ public class Entity : MonoBehaviour, IDamagable, IKillable {
   public int health;
   public int armor;
 
-  public void Damage(int amount) {
+  public void GetArmor(int amount) {
+    armor += amount;
+  }
 
+  public void Damage(int amount) {
     if (armor >= amount) {
       armor -= amount;
     }

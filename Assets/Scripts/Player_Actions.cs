@@ -5,12 +5,17 @@ using UnityEngine;
 public class Player_Actions : MonoBehaviour {
 
   public GameObject inventoryObject;
+  public Entity playerEntity;
   private int currentItem;
   public List<GameObject> heldItems;
   [SerializeField]
   private bool primaryAction;
 
   void Start() {
+    if (playerEntity == null) {
+      playerEntity = gameObject.GetComponent<Entity>();
+    }
+
     primaryAction = false;
 
     GetHeldItems();
@@ -61,6 +66,7 @@ public class Player_Actions : MonoBehaviour {
 
     // only add it if we don't already have it
     Ammo ammoPickup = item.gameObject.GetComponent<Ammo>();
+    Armor armorPickup = item.gameObject.GetComponent<Armor>();
     Weapon weaponPickup = item.gameObject.GetComponent<Weapon>();
 
     if (ammoPickup != null) {
@@ -74,6 +80,16 @@ public class Player_Actions : MonoBehaviour {
       }
 
       item.gameObject.SetActive(false);
+      Destroy(item.gameObject);
+    }
+    else if (armorPickup != null) {
+      // consume ammo
+      int amount = armorPickup.amount;
+      Debug.Log("get some armor");
+
+      playerEntity.GetArmor(amount);
+      item.gameObject.SetActive(false);
+      Destroy(item.gameObject);
     }
     else if (weaponPickup != null) {
       // pickup weapon
@@ -92,7 +108,6 @@ public class Player_Actions : MonoBehaviour {
           matchedWeapon.ChangeAmmo(pickupAmount);
           weaponPickup.remainingAmmo -= pickupAmount;
         }
-
       }
     }
     else {
