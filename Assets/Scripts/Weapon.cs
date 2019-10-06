@@ -25,30 +25,41 @@ public class Weapon : MonoBehaviour {
   private bool canAttack;
   public int remainingAmmo;
 
+  public bool heldByPlayer = false;
+
 
   void OnEnable() {
-    SelectWeapon();
+    // player only weapon stuff
+    heldByPlayer = transform.root.CompareTag("Player");
 
-    if (itemCanvas == null) {
-      itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
-    }
+    if (heldByPlayer) {
+      SelectWeapon();
 
-    if (mainCamera == null) {
-      mainCamera = Camera.main;
+      if (itemCanvas == null) {
+        itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
+      }
+
+      if (mainCamera == null) {
+        mainCamera = Camera.main;
+      }
+
+      if (crosshairs == null) {
+        crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
+      }
+
     }
 
     if (spriteRenderer == null) {
       spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
-    if (crosshairs == null) {
-      crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
-    }
-
     ChangeAmmo(0);
     timeRemaining = weaponData.AttackInterval;
     canAttack = true;
-    spriteRenderer.sprite = weaponData.ItemIcon;
+
+    if (spriteRenderer != null) {
+      spriteRenderer.sprite = weaponData.ItemIcon;
+    }
   }
 
   void Update() {
@@ -94,8 +105,13 @@ public class Weapon : MonoBehaviour {
 
   void HitScanBullet(bool disarm = false, int ammoCost = 1) {
     RaycastHit hit;
-    Vector3 attackPosition = mainCamera.transform.position;
-    Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
+    Vector3 attackPosition = transform.position;
+    Vector3 attackDirection = transform.forward;
+
+    if (heldByPlayer) {
+      attackPosition = mainCamera.transform.position;
+      attackDirection = crosshairs.position - mainCamera.transform.position;
+    }
 
     if (remainingAmmo >= ammoCost || weaponData.InfiniteAmmo) {
       ChangeAmmo(-ammoCost);
@@ -135,8 +151,8 @@ public class Weapon : MonoBehaviour {
     if (!weaponData.InfiniteAmmo) {
       remainingAmmo += amount;
 
-      // only update UI if it's currently equipped
-      if (gameObject.activeInHierarchy) {
+      // only update UI if it's currently equipped and if it's the player
+      if (gameObject.activeInHierarchy && heldByPlayer) {
         itemCanvas.UpdateRemainingAmmo(remainingAmmo);
       }
     }
