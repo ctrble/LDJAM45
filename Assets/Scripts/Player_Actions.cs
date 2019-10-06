@@ -61,40 +61,6 @@ public class Player_Actions : MonoBehaviour {
     }
   }
 
-  void GetHeldItems() {
-    foreach (Transform child in inventoryObject.transform) {
-      heldItems.Add(child.gameObject);
-    }
-  }
-
-  void ChangeItem() {
-    for (int i = 0; i < heldItems.Count; i++) {
-      heldItems[i].SetActive(currentItem == i);
-    }
-  }
-
-  bool ItemHeld(GameObject item) {
-    bool alreadyHeld = false;
-    for (int i = 0; i < heldItems.Count; i++) {
-      if (heldItems[i].name == item.name) {
-        alreadyHeld = true;
-        break;
-      }
-    }
-    return alreadyHeld;
-  }
-
-  Weapon MatchAmmoType(string type) {
-    Weapon matchedType = null;
-    for (int i = 0; i < heldItems.Count; i++) {
-      if (heldItems[i].name == type) {
-        matchedType = heldItems[i].GetComponent<Weapon>();
-        break;
-      }
-    }
-    return matchedType;
-  }
-
   void PickupItem(Collider item) {
     // turn off the collider and item object
     item.enabled = false;
@@ -143,6 +109,29 @@ public class Player_Actions : MonoBehaviour {
     }
   }
 
+  void GetHeldItems() {
+    foreach (Transform child in inventoryObject.transform) {
+      heldItems.Add(child.gameObject);
+    }
+  }
+
+  void ChangeItem() {
+    for (int i = 0; i < heldItems.Count; i++) {
+      heldItems[i].SetActive(currentItem == i);
+    }
+  }
+
+  bool ItemHeld(GameObject item) {
+    bool alreadyHeld = false;
+    for (int i = 0; i < heldItems.Count; i++) {
+      if (heldItems[i].name == item.name) {
+        alreadyHeld = true;
+        break;
+      }
+    }
+    return alreadyHeld;
+  }
+
   void PickupAvailableAmmo(Weapon weaponToPickup) {
     // get the rest of the ammo
     Weapon matchedWeapon = MatchAmmoType(weaponToPickup.name);
@@ -157,6 +146,17 @@ public class Player_Actions : MonoBehaviour {
     if (currentWeapon != null) {
       currentWeapon.UseWeapon();
     }
+  }
+
+  Weapon MatchAmmoType(string type) {
+    Weapon matchedType = null;
+    for (int i = 0; i < heldItems.Count; i++) {
+      if (heldItems[i].name == type) {
+        matchedType = heldItems[i].GetComponent<Weapon>();
+        break;
+      }
+    }
+    return matchedType;
   }
 
   private void OnTriggerEnter(Collider other) {

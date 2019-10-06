@@ -43,20 +43,19 @@ public class Weapon : MonoBehaviour {
     DestroyIfEmpty();
   }
 
-  void DestroyIfEmpty() {
-    if (transform.parent == null && remainingAmmo <= 0) {
-      Destroy(gameObject);
+  void AttackTimer() {
+    if (!canAttack) {
+      timeRemaining -= Time.deltaTime;
+      if (timeRemaining <= 0f) {
+        canAttack = true;
+        timeRemaining = weaponData.AttackInterval;
+      }
     }
   }
 
-  public void SelectWeapon() {
-    OnWeaponSelected.Raise();
-  }
-
-  public void UseWeapon() {
-    if (canAttack) {
-      canAttack = false;
-      WeaponEffect();
+  void DestroyIfEmpty() {
+    if (transform.parent == null && remainingAmmo <= 0) {
+      Destroy(gameObject);
     }
   }
 
@@ -71,24 +70,6 @@ public class Weapon : MonoBehaviour {
       default:
         break;
     }
-  }
-
-  public void ChangeAmmo(int amount) {
-    Debug.Log("ammo update: " + gameObject.name + " " + amount);
-
-    if (!weaponData.InfiniteAmmo) {
-      remainingAmmo += amount;
-
-      // only update UI if it's currently equipped
-      if (gameObject.activeInHierarchy) {
-        itemCanvas.UpdateRemainingAmmo(remainingAmmo);
-      }
-    }
-  }
-
-  public void DropWeapon(Transform item) {
-    Debug.Log("drop the item: " + item.name);
-    item.parent = null;
   }
 
   void DisarmEnemy(GameObject enemy) {
@@ -127,13 +108,32 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void AttackTimer() {
-    if (!canAttack) {
-      timeRemaining -= Time.deltaTime;
-      if (timeRemaining <= 0f) {
-        canAttack = true;
-        timeRemaining = weaponData.AttackInterval;
+  public void SelectWeapon() {
+    OnWeaponSelected.Raise();
+  }
+
+  public void UseWeapon() {
+    if (canAttack) {
+      canAttack = false;
+      WeaponEffect();
+    }
+  }
+
+  public void ChangeAmmo(int amount) {
+    Debug.Log("ammo update: " + gameObject.name + " " + amount);
+
+    if (!weaponData.InfiniteAmmo) {
+      remainingAmmo += amount;
+
+      // only update UI if it's currently equipped
+      if (gameObject.activeInHierarchy) {
+        itemCanvas.UpdateRemainingAmmo(remainingAmmo);
       }
     }
+  }
+
+  public void DropWeapon(Transform item) {
+    Debug.Log("drop the item: " + item.name);
+    item.parent = null;
   }
 }
