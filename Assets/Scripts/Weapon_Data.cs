@@ -6,15 +6,13 @@ using UnityEngine;
 public class Weapon_Data : Item {
 
   [SerializeField]
-  private int attackDamage;
+  private int attackDamage = 1;
   [SerializeField]
-  private int attackRange;
+  private int attackRange = 50;
   [SerializeField]
-  private float attackInterval;
+  private float attackInterval = 0.1f;
   [SerializeField]
-  private bool infiniteAmmo;
-  // [SerializeField]
-  // private int maxAmmo;
+  private bool infiniteAmmo = false;
 
   public int AttackDamage {
     get {
@@ -39,10 +37,4 @@ public class Weapon_Data : Item {
       return infiniteAmmo;
     }
   }
-
-  // public int MaxAmmo {
-  //   get {
-  //     return maxAmmo;
-  //   }
-  // }
 }

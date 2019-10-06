@@ -36,27 +36,21 @@ public class Player_Actions : MonoBehaviour {
 
     // change weapons, but only if there's one to change to
     if (Input.GetButtonDown("Item1") && heldItems.Count >= 1) {
-      Debug.Log("change to item 1");
       currentItem = 0;
     }
     else if (Input.GetButtonDown("Item2") && heldItems.Count >= 2) {
-      Debug.Log("change to item 2");
       currentItem = 1;
     }
     else if (Input.GetButtonDown("Item3") && heldItems.Count >= 3) {
-      Debug.Log("change to item 3");
       currentItem = 2;
     }
     else if (Input.GetButtonDown("Item4") && heldItems.Count >= 4) {
-      Debug.Log("change to item 4");
       currentItem = 3;
     }
     else if (Input.GetButtonDown("Item5") && heldItems.Count >= 5) {
-      Debug.Log("change to item 5");
       currentItem = 4;
     }
     else if (Input.GetButtonDown("Item6") && heldItems.Count >= 6) {
-      Debug.Log("change to item 6");
       currentItem = 5;
     }
   }
@@ -72,7 +66,6 @@ public class Player_Actions : MonoBehaviour {
     if (ammoPickup != null) {
       // consume ammo
       int amount = ammoPickup.amount;
-      Debug.Log("ammo get: " + amount + " " + ammoPickup.kind);
 
       // check type here!
       Weapon matchedWeapon = MatchAmmoType(ammoPickup.kind);
@@ -98,8 +91,6 @@ public class Player_Actions : MonoBehaviour {
           int pickupAmount = weaponPickup.remainingAmmo;
           matchedWeapon.ChangeAmmo(pickupAmount);
           weaponPickup.remainingAmmo -= pickupAmount;
-
-          Debug.Log("weapon already in inventory, took ammo instead: " + pickupAmount);
         }
 
       }
@@ -161,8 +152,6 @@ public class Player_Actions : MonoBehaviour {
 
   private void OnTriggerEnter(Collider other) {
     if (other.CompareTag("Item")) {
-      Debug.Log("attempting pickup: " + other.name);
-
       PickupItem(other);
     }
   }

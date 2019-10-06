@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
+  // suppress warnings about default values
+#pragma warning disable CS0649
+
   [SerializeField]
   private Weapon_Data weaponData;
+
+#pragma warning disable CS0649
+
   [SerializeField]
   private Game_Event OnWeaponSelected;
   public Item_Canvas itemCanvas;
@@ -17,13 +23,13 @@ public class Weapon : MonoBehaviour {
   private bool canAttack;
   public int remainingAmmo;
 
+
   void OnEnable() {
     SelectWeapon();
 
     if (itemCanvas == null) {
       itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
     }
-    ChangeAmmo(0);
 
     if (mainCamera == null) {
       mainCamera = Camera.main;
@@ -33,7 +39,7 @@ public class Weapon : MonoBehaviour {
       crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
     }
 
-    // maxAmmo = weaponData.MaxAmmo;
+    ChangeAmmo(0);
     timeRemaining = weaponData.AttackInterval;
     canAttack = true;
   }
@@ -90,7 +96,6 @@ public class Weapon : MonoBehaviour {
       bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
       if (hitCast) {
         Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
-        Debug.Log("hit: " + hit.transform.name);
 
         Entity entity = hit.transform.GetComponent<Entity>();
         if (entity != null) {
@@ -120,8 +125,6 @@ public class Weapon : MonoBehaviour {
   }
 
   public void ChangeAmmo(int amount) {
-    Debug.Log("ammo update: " + gameObject.name + " " + amount);
-
     if (!weaponData.InfiniteAmmo) {
       remainingAmmo += amount;
 
@@ -133,7 +136,6 @@ public class Weapon : MonoBehaviour {
   }
 
   public void DropWeapon(Transform item) {
-    Debug.Log("drop the item: " + item.name);
     item.parent = null;
   }
 }
