@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -3156,6 +3156,21 @@ PrefabInstance:
         type: 3}
       propertyPath: strafeInterval
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: maxStrafeInterval
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: minStrafeInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: retreatDistanceFromPlayer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}

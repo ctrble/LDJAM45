@@ -15,7 +15,9 @@ public class Enemy_Movement : MonoBehaviour {
   public Vector3 retreatPosition = Vector3.zero;
   public bool retreating;
   public float strafeSpeed = 2;
-  public float strafeInterval;
+  public float maxStrafeInterval;
+  public float minStrafeInterval;
+  // public float currentStrafeInterval;
   [SerializeField]
   private float timeRemaining;
   [SerializeField]
@@ -23,6 +25,7 @@ public class Enemy_Movement : MonoBehaviour {
   private Vector3 lastPosition;
   [SerializeField]
   private float navSpeed;
+  Vector3 strafeDirection;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -35,6 +38,7 @@ public class Enemy_Movement : MonoBehaviour {
 
     retreating = false;
     navAgent.destination = player.position;
+    strafeDirection = Vector3.right;
     lastPosition = transform.position;
   }
 
@@ -44,10 +48,8 @@ public class Enemy_Movement : MonoBehaviour {
 
     // about how fast is this thing
     navSpeed = Mathf.Lerp(navSpeed, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.5f);
-    if (navSpeed <= 0.2f) {
-      Strafe();
-    }
 
+    // and how far away is it?
     currentDistanceFromPlayer = (transform.position - player.position).magnitude;
 
     if (currentDistanceFromPlayer < minDistanceFromPlayer) {
@@ -55,7 +57,12 @@ public class Enemy_Movement : MonoBehaviour {
     }
     else if (currentDistanceFromPlayer >= minDistanceFromPlayer) {
       FollowPlayer();
+
+      // strafing
       StrafeTimer();
+      if (navSpeed <= 0.1f) {
+        Strafe();
+      }
     }
   }
 
@@ -72,13 +79,14 @@ public class Enemy_Movement : MonoBehaviour {
   }
 
   void Strafe() {
-    Vector3 strafeDirection = transform.right;
     if (changeStrafeDirection) {
       strafeDirection = -strafeDirection;
       changeStrafeDirection = false;
     }
-    Debug.DrawRay(transform.position, strafeDirection * strafeSpeed, Color.blue);
-    navAgent.Move(strafeDirection * strafeSpeed * Time.deltaTime);
+
+    // back and forth we go!
+    Vector3 worldDirection = transform.TransformDirection(strafeDirection);
+    navAgent.Move(worldDirection * strafeSpeed * Time.deltaTime);
   }
 
   void DoRetreat() {
@@ -97,8 +105,9 @@ public class Enemy_Movement : MonoBehaviour {
     if (!changeStrafeDirection) {
       timeRemaining -= Time.deltaTime;
       if (timeRemaining <= 0f) {
+        float newStrafeInterval = Random.Range(minStrafeInterval, maxStrafeInterval);
         changeStrafeDirection = true;
-        timeRemaining = strafeInterval;
+        timeRemaining = newStrafeInterval;
       }
     }
   }
