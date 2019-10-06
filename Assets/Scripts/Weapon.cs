@@ -90,7 +90,7 @@ public class Weapon : MonoBehaviour {
     Vector3 attackPosition = mainCamera.transform.position;
     Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
 
-    if (remainingAmmo >= ammoCost) {
+    if (remainingAmmo >= ammoCost || weaponData.InfiniteAmmo) {
       ChangeAmmo(-ammoCost);
 
       bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
