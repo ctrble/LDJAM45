@@ -13,5 +13,6 @@ public class Sprite_Billboard : MonoBehaviour {
 
   void Update() {
     transform.forward = target.forward;
+    // transform.up = Vector3.up;
   }
 }
