@@ -25,7 +25,8 @@ public class Enemy_Movement : MonoBehaviour {
   private Vector3 lastPosition;
   [SerializeField]
   private float navSpeed;
-  Vector3 strafeDirection;
+  [SerializeField]
+  private Vector3 strafeDirection;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -37,9 +38,11 @@ public class Enemy_Movement : MonoBehaviour {
     }
 
     retreating = false;
-    navAgent.destination = player.position;
-    strafeDirection = Vector3.right;
+    // navAgent.destination = player.position;
+    strafeDirection = new Vector3(Random.Range(-1, 2), 0, Random.Range(-1, 2));
     lastPosition = transform.position;
+
+    // LookForPlayer();
   }
 
   void Update() {
@@ -50,24 +53,32 @@ public class Enemy_Movement : MonoBehaviour {
     navSpeed = Mathf.Lerp(navSpeed, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.5f);
 
     // and how far away is it?
-    currentDistanceFromPlayer = (transform.position - player.position).magnitude;
+    currentDistanceFromPlayer = (transform.position - player.position).sqrMagnitude;
 
-    if (currentDistanceFromPlayer < minDistanceFromPlayer) {
+    if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
       DoRetreat();
     }
-    else if (currentDistanceFromPlayer >= minDistanceFromPlayer) {
-      FollowPlayer();
+    else if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
+      if (CanSeePlayer()) {
+        FollowPlayer();
 
-      // strafing
-      StrafeTimer();
-      if (navSpeed <= 0.1f) {
-        Strafe();
+        // strafing
+        StrafeTimer();
+        if (navSpeed <= 0.01f) {
+          Strafe();
+        }
       }
     }
   }
 
   void LateUpdate() {
     lastPosition = transform.position;
+  }
+
+  bool CanSeePlayer() {
+    NavMeshHit hit;
+    // true if didn't hit anything between the enemy and the player
+    return !navAgent.Raycast(player.position, out hit);
   }
 
   void FollowPlayer() {
@@ -78,27 +89,36 @@ public class Enemy_Movement : MonoBehaviour {
     navAgent.destination = player.position;
   }
 
+  void DoRetreat() {
+    retreating = true;
+    navAgent.autoBraking = false;
+    navAgent.stoppingDistance = 0;
+
+    if (retreatPosition == Vector3.zero) {
+      // get a new position to retreat to
+      Vector3 retreatDirection = transform.position - player.position;
+      Vector3 retreatDistance = retreatDirection.normalized * retreatDistanceFromPlayer;
+      retreatPosition = transform.position + retreatDistance;
+    }
+
+    navAgent.destination = retreatPosition;
+    if (navAgent.remainingDistance <= 1f) {
+      // we made it, reset
+      retreating = false;
+      retreatPosition = Vector3.zero;
+    }
+  }
+
   void Strafe() {
     if (changeStrafeDirection) {
-      strafeDirection = -strafeDirection;
+      // strafeDirection = -strafeDirection;
+      strafeDirection = new Vector3(Random.Range(-1, 2), 0, Random.Range(-1, 2));
       changeStrafeDirection = false;
     }
 
     // back and forth we go!
     Vector3 worldDirection = transform.TransformDirection(strafeDirection);
     navAgent.Move(worldDirection * strafeSpeed * Time.deltaTime);
-  }
-
-  void DoRetreat() {
-    retreating = true;
-    navAgent.autoBraking = false;
-    navAgent.stoppingDistance = 0;
-
-    Vector3 retreatDirection = transform.position - player.position;
-    Vector3 retreatDistance = retreatDirection.normalized * retreatDistanceFromPlayer;
-    retreatPosition = transform.position + retreatDistance;
-
-    navAgent.destination = retreatPosition;
   }
 
   void StrafeTimer() {
