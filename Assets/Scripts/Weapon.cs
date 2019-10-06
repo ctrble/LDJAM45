@@ -18,6 +18,8 @@ public class Weapon : MonoBehaviour {
   private Camera mainCamera;
   public Transform crosshairs;
   [SerializeField]
+  private SpriteRenderer spriteRenderer;
+  [SerializeField]
   private float timeRemaining;
   [SerializeField]
   private bool canAttack;
@@ -35,6 +37,10 @@ public class Weapon : MonoBehaviour {
       mainCamera = Camera.main;
     }
 
+    if (spriteRenderer == null) {
+      spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+    }
+
     if (crosshairs == null) {
       crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
     }
@@ -42,6 +48,7 @@ public class Weapon : MonoBehaviour {
     ChangeAmmo(0);
     timeRemaining = weaponData.AttackInterval;
     canAttack = true;
+    spriteRenderer.sprite = weaponData.ItemIcon;
   }
 
   void Update() {
