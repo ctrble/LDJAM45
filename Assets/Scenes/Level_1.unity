@@ -3152,6 +3152,11 @@ PrefabInstance:
       propertyPath: distanceFromPlayer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: strafeInterval
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}
 --- !u!1001 &5918411537361254078

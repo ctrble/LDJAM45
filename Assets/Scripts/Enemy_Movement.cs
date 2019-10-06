@@ -14,6 +14,12 @@ public class Enemy_Movement : MonoBehaviour {
   public float currentDistanceFromPlayer;
   public Vector3 retreatPosition = Vector3.zero;
   public bool retreating;
+  public float strafeSpeed = 2;
+  public float strafeInterval;
+  [SerializeField]
+  private float timeRemaining;
+  [SerializeField]
+  private bool changeStrafeDirection;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -29,6 +35,9 @@ public class Enemy_Movement : MonoBehaviour {
   }
 
   void Update() {
+    // face the player
+    transform.LookAt(player);
+
     currentDistanceFromPlayer = (transform.position - player.position).magnitude;
 
     if (currentDistanceFromPlayer < minDistanceFromPlayer) {
@@ -36,6 +45,7 @@ public class Enemy_Movement : MonoBehaviour {
     }
     else if (currentDistanceFromPlayer >= minDistanceFromPlayer) {
       FollowPlayer();
+      StrafeTimer();
     }
   }
 
@@ -44,7 +54,24 @@ public class Enemy_Movement : MonoBehaviour {
     navAgent.autoBraking = true;
     navAgent.stoppingDistance = maxDistanceFromPlayer;
 
+    float navSpeed = navAgent.velocity.magnitude;
+    Debug.Log(navSpeed);
+
+    if (navSpeed <= 0.2f) {
+      Strafe();
+    }
+
     navAgent.destination = player.position;
+  }
+
+  void Strafe() {
+    Vector3 strafeDirection = transform.right;
+    if (changeStrafeDirection) {
+      strafeDirection = -strafeDirection;
+      changeStrafeDirection = false;
+    }
+    Debug.DrawRay(transform.position, strafeDirection * strafeSpeed, Color.blue);
+    navAgent.Move(strafeDirection * strafeSpeed * Time.deltaTime);
   }
 
   void DoRetreat() {
@@ -57,6 +84,16 @@ public class Enemy_Movement : MonoBehaviour {
     retreatPosition = transform.position + retreatDistance;
 
     navAgent.destination = retreatPosition;
+  }
+
+  void StrafeTimer() {
+    if (!changeStrafeDirection) {
+      timeRemaining -= Time.deltaTime;
+      if (timeRemaining <= 0f) {
+        changeStrafeDirection = true;
+        timeRemaining = strafeInterval;
+      }
+    }
   }
 
   private void OnDrawGizmos() {
