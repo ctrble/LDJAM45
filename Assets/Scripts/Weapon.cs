@@ -8,10 +8,6 @@ public class Weapon : MonoBehaviour {
   [SerializeField]
   private Game_Event OnWeaponSelected;
   public Item_Canvas itemCanvas;
-  // [SerializeField]
-  // private Game_Event OnAmmoChanged;
-  // [SerializeField]
-  // private Game_Event OnPistolAmmoChanged;
   public LayerMask hitLayer;
   private Camera mainCamera;
   public Transform crosshairs;
@@ -37,12 +33,20 @@ public class Weapon : MonoBehaviour {
       crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
     }
 
+    // maxAmmo = weaponData.MaxAmmo;
     timeRemaining = weaponData.AttackInterval;
     canAttack = true;
   }
 
   void Update() {
     AttackTimer();
+    DestroyIfEmpty();
+  }
+
+  void DestroyIfEmpty() {
+    if (transform.parent == null && remainingAmmo <= 0) {
+      Destroy(gameObject);
+    }
   }
 
   public void SelectWeapon() {
@@ -70,7 +74,7 @@ public class Weapon : MonoBehaviour {
   }
 
   public void ChangeAmmo(int amount) {
-    Debug.Log("changing ammo! " + gameObject.name + " " + amount);
+    Debug.Log("ammo update: " + gameObject.name + " " + amount);
 
     if (!weaponData.InfiniteAmmo) {
       remainingAmmo += amount;
@@ -83,7 +87,7 @@ public class Weapon : MonoBehaviour {
   }
 
   public void DropWeapon(Transform item) {
-    Debug.Log("dude, drop it! " + item.name);
+    Debug.Log("drop the item: " + item.name);
     item.parent = null;
   }
 

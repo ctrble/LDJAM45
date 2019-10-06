@@ -100,24 +100,23 @@ public class Player_Actions : MonoBehaviour {
     item.enabled = false;
 
     // only add it if we don't already have it
-    Ammo ammo = item.gameObject.GetComponent<Ammo>();
-    Weapon weapon = item.gameObject.GetComponent<Weapon>();
+    Ammo ammoPickup = item.gameObject.GetComponent<Ammo>();
+    Weapon weaponPickup = item.gameObject.GetComponent<Weapon>();
 
-    if (ammo != null) {
+    if (ammoPickup != null) {
       // consume ammo
-      int amount = ammo.amount;
-      Debug.Log("ammo get: " + amount + " " + ammo.kind);
+      int amount = ammoPickup.amount;
+      Debug.Log("ammo get: " + amount + " " + ammoPickup.kind);
 
       // check type here!
-      Weapon matchedWeapon = MatchAmmoType(ammo.kind);
+      Weapon matchedWeapon = MatchAmmoType(ammoPickup.kind);
       if (matchedWeapon != null) {
-        Debug.Log(matchedWeapon);
         matchedWeapon.ChangeAmmo(amount);
       }
 
       item.gameObject.SetActive(false);
     }
-    else if (weapon != null) {
+    else if (weaponPickup != null) {
       // pickup weapon
       if (!ItemHeld(item.gameObject)) {
         item.transform.parent = inventoryObject.transform;
@@ -127,11 +126,29 @@ public class Player_Actions : MonoBehaviour {
         ChangeItem();
       }
       else {
-        Debug.Log("already got one");
+        // get the rest of the ammo
+        Weapon matchedWeapon = MatchAmmoType(weaponPickup.name);
+        if (matchedWeapon != null) {
+          int pickupAmount = weaponPickup.remainingAmmo;
+          matchedWeapon.ChangeAmmo(pickupAmount);
+          weaponPickup.remainingAmmo -= pickupAmount;
+
+          Debug.Log("weapon already in inventory, took ammo instead: " + pickupAmount);
+        }
+
       }
     }
     else {
-      Debug.Log("what's this?");
+      Debug.Log("what's this? not a valid weapon or ammo type");
+    }
+  }
+
+  void PickupAvailableAmmo(Weapon weaponToPickup) {
+    // get the rest of the ammo
+    Weapon matchedWeapon = MatchAmmoType(weaponToPickup.name);
+    if (matchedWeapon != null) {
+      int pickupAmount = weaponToPickup.remainingAmmo;
+      matchedWeapon.ChangeAmmo(pickupAmount);
     }
   }
 
@@ -144,7 +161,7 @@ public class Player_Actions : MonoBehaviour {
 
   private void OnTriggerEnter(Collider other) {
     if (other.CompareTag("Item")) {
-      Debug.Log("can pickup: " + other.name);
+      Debug.Log("attempting pickup: " + other.name);
 
       PickupItem(other);
     }

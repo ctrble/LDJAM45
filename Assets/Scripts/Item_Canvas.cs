@@ -18,11 +18,11 @@ public class Item_Canvas : MonoBehaviour {
     itemIcon.sprite = weaponData.ItemIcon;
     if (weaponData.InfiniteAmmo) {
       remainingAmmo.text = "∞";
-      maxAmmo.text = "∞";
+      // maxAmmo.text = "∞";
     }
-    else {
-      maxAmmo.text = weaponData.MaxAmmo.ToString();
-    }
+    // else {
+    //   maxAmmo.text = weaponData.MaxAmmo.ToString();
+    // }
   }
 
   public void UpdateRemainingAmmo(int ammo) {

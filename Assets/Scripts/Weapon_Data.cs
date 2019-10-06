@@ -13,8 +13,8 @@ public class Weapon_Data : Item {
   private float attackInterval;
   [SerializeField]
   private bool infiniteAmmo;
-  [SerializeField]
-  private int maxAmmo;
+  // [SerializeField]
+  // private int maxAmmo;
 
   public int AttackDamage {
     get {
@@ -40,9 +40,9 @@ public class Weapon_Data : Item {
     }
   }
 
-  public int MaxAmmo {
-    get {
-      return maxAmmo;
-    }
-  }
+  // public int MaxAmmo {
+  //   get {
+  //     return maxAmmo;
+  //   }
+  // }
 }
