@@ -39,13 +39,13 @@ public class Weapon : MonoBehaviour {
         itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
       }
 
-      if (mainCamera == null) {
-        mainCamera = Camera.main;
-      }
+      // if (mainCamera == null) {
+      //   mainCamera = Camera.main;
+      // }
 
-      if (crosshairs == null) {
-        crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
-      }
+      // if (crosshairs == null) {
+      //   crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
+      // }
 
     }
 
@@ -83,13 +83,13 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void WeaponEffect() {
+  void WeaponEffect(Vector3 position, Vector3 direction) {
     switch (weaponData.ItemName) {
       case "Fists":
-        HitScanBullet(true);
+        HitScanBullet(position, direction, true);
         break;
       case "Pistol":
-        HitScanBullet();
+        HitScanBullet(position, direction, false);
         break;
       default:
         break;
@@ -103,26 +103,11 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void HitScanBullet(bool disarm = false, int ammoCost = 1) {
+  void HitScanBullet(Vector3 position, Vector3 direction, bool disarm) {
+    int ammoCost = 1;
     RaycastHit hit;
-    Vector3 attackPosition = transform.position;
-    Vector3 attackDirection = transform.forward;
-
-    if (heldByPlayer) {
-      attackPosition = mainCamera.transform.position;
-      attackDirection = crosshairs.position - mainCamera.transform.position;
-    }
-    else {
-      // enemy aim is messy
-      float offsetX = Random.Range(-0.1f, 0.1f);
-      float offsetY = Random.Range(-0.1f, 0.1f);
-      float offsetZ = Random.Range(-0.1f, 0.1f);
-
-      Vector3 randomOffset = new Vector3(offsetX, offsetY, offsetZ);
-      attackDirection += randomOffset;
-
-      Debug.DrawRay(transform.position, attackDirection * 100, Color.blue);
-    }
+    Vector3 attackPosition = position;
+    Vector3 attackDirection = direction;
 
     if (remainingAmmo >= ammoCost || weaponData.InfiniteAmmo) {
       ChangeAmmo(-ammoCost);
@@ -151,10 +136,10 @@ public class Weapon : MonoBehaviour {
     OnWeaponSelected.Raise();
   }
 
-  public void UseWeapon() {
+  public void UseWeapon(Vector3 position, Vector3 direction) {
     if (canAttack) {
       canAttack = false;
-      WeaponEffect();
+      WeaponEffect(position, direction);
     }
   }
 

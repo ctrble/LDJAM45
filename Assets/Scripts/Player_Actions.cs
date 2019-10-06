@@ -10,10 +10,20 @@ public class Player_Actions : MonoBehaviour {
   public List<GameObject> heldItems;
   [SerializeField]
   private bool primaryAction;
+  private Camera mainCamera;
+  public Transform crosshairs;
 
   void Start() {
     if (playerEntity == null) {
       playerEntity = gameObject.GetComponent<Entity>();
+    }
+
+    if (mainCamera == null) {
+      mainCamera = Camera.main;
+    }
+
+    if (crosshairs == null) {
+      crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
     }
 
     primaryAction = false;
@@ -150,7 +160,9 @@ public class Player_Actions : MonoBehaviour {
   void UseItem() {
     Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
     if (currentWeapon != null) {
-      currentWeapon.UseWeapon();
+      Vector3 attackPosition = mainCamera.transform.position;
+      Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
+      currentWeapon.UseWeapon(attackPosition, attackDirection);
     }
   }
 

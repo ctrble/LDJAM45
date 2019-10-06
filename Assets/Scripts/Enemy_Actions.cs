@@ -12,6 +12,7 @@ public class Enemy_Actions : MonoBehaviour {
   private bool primaryAction;
   public float angleFromPlayer = 0;
   public float attackAngleThreshold = 20f;
+  public float enemyAccuracy = 0.1f;
 
   void Start() {
     if (enemyEntity == null) {
@@ -69,7 +70,15 @@ public class Enemy_Actions : MonoBehaviour {
   void UseItem() {
     Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
     if (currentWeapon != null) {
-      currentWeapon.UseWeapon();
+      // enemy aim is messy
+      float offsetX = Random.Range(-enemyAccuracy, enemyAccuracy);
+      float offsetY = Random.Range(-enemyAccuracy, enemyAccuracy);
+      float offsetZ = Random.Range(-enemyAccuracy, enemyAccuracy);
+      Vector3 randomOffset = new Vector3(offsetX, offsetY, offsetZ);
+
+      Vector3 attackPosition = transform.position;
+      Vector3 attackDirection = transform.forward + randomOffset;
+      currentWeapon.UseWeapon(attackPosition, attackDirection);
     }
   }
 }
