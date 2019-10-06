@@ -83,7 +83,7 @@ public class Player_Actions : MonoBehaviour {
       Destroy(item.gameObject);
     }
     else if (armorPickup != null) {
-      // consume ammo
+      // consume armor
       int amount = armorPickup.amount;
       Debug.Log("get some armor");
 
