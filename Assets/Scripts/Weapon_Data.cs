@@ -15,8 +15,6 @@ public class Weapon_Data : Item {
   private bool infiniteAmmo;
   [SerializeField]
   private int maxAmmo;
-  // [SerializeField]
-  // private int remainingAmmo;
 
   public int AttackDamage {
     get {
@@ -47,13 +45,4 @@ public class Weapon_Data : Item {
       return maxAmmo;
     }
   }
-
-  // public int RemainingAmmo {
-  //   get {
-  //     return this.remainingAmmo;
-  //   }
-  //   set {
-  //     this.remainingAmmo += value;
-  //   }
-  // }
 }

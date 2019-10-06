@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour {
     if (itemCanvas == null) {
       itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
     }
-    ChangeAmmo(remainingAmmo);
+    ChangeAmmo(0);
 
     if (mainCamera == null) {
       mainCamera = Camera.main;
@@ -70,9 +70,15 @@ public class Weapon : MonoBehaviour {
   }
 
   public void ChangeAmmo(int amount) {
+    Debug.Log("changing ammo! " + gameObject.name + " " + amount);
+
     if (!weaponData.InfiniteAmmo) {
       remainingAmmo += amount;
-      itemCanvas.UpdateRemainingAmmo(remainingAmmo);
+
+      // only update UI if it's currently equipped
+      if (gameObject.activeInHierarchy) {
+        itemCanvas.UpdateRemainingAmmo(remainingAmmo);
+      }
     }
   }
 
@@ -88,28 +94,32 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  void HitScanBullet(bool disarm = false) {
+  void HitScanBullet(bool disarm = false, int ammoCost = 1) {
     RaycastHit hit;
     Vector3 attackPosition = mainCamera.transform.position;
     Vector3 attackDirection = crosshairs.position - mainCamera.transform.position;
 
-    bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
-    if (hitCast) {
-      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
-      Debug.Log("hit: " + hit.transform.name);
+    if (remainingAmmo >= ammoCost) {
+      ChangeAmmo(-ammoCost);
 
-      Entity entity = hit.transform.GetComponent<Entity>();
-      if (entity != null) {
-        entity.Damage(weaponData.AttackDamage);
+      bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
+      if (hitCast) {
+        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.red);
+        Debug.Log("hit: " + hit.transform.name);
 
-        // should they be disarmed?
-        if (disarm) {
-          DisarmEnemy(hit.transform.gameObject);
+        Entity entity = hit.transform.GetComponent<Entity>();
+        if (entity != null) {
+          entity.Damage(weaponData.AttackDamage);
+
+          // should they be disarmed?
+          if (disarm) {
+            DisarmEnemy(hit.transform.gameObject);
+          }
         }
       }
-    }
-    else {
-      Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
+      else {
+        Debug.DrawRay(attackPosition, attackDirection * weaponData.AttackRange, Color.black);
+      }
     }
   }
 

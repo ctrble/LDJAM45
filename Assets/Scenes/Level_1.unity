@@ -761,8 +761,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: {fileID: 622859233}
   itemIcon: {fileID: 1627443049}
-  maxAmmo: {fileID: 1297632662}
   remainingAmmo: {fileID: 544987914}
+  maxAmmo: {fileID: 1297632662}
 --- !u!114 &937681781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1720,6 +1720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: amount
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5495149215143834215, guid: bd3b8e20209a44b3b83c974147700357,
+        type: 3}
+      propertyPath: kind
+      value: Pistol
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd3b8e20209a44b3b83c974147700357, type: 3}

@@ -84,6 +84,17 @@ public class Player_Actions : MonoBehaviour {
     return alreadyHeld;
   }
 
+  Weapon MatchAmmoType(string type) {
+    Weapon matchedType = null;
+    for (int i = 0; i < heldItems.Count; i++) {
+      if (heldItems[i].name == type) {
+        matchedType = heldItems[i].GetComponent<Weapon>();
+        break;
+      }
+    }
+    return matchedType;
+  }
+
   void PickupItem(Collider item) {
     // turn off the collider and item object
     item.enabled = false;
@@ -95,11 +106,13 @@ public class Player_Actions : MonoBehaviour {
     if (ammo != null) {
       // consume ammo
       int amount = ammo.amount;
-      Debug.Log("it's ammo! " + amount);
+      Debug.Log("ammo get: " + amount + " " + ammo.kind);
 
-      Weapon currentWeapon = inventoryObject.GetComponentInChildren<Weapon>();
-      if (currentWeapon != null) {
-        currentWeapon.ChangeAmmo(amount);
+      // check type here!
+      Weapon matchedWeapon = MatchAmmoType(ammo.kind);
+      if (matchedWeapon != null) {
+        Debug.Log(matchedWeapon);
+        matchedWeapon.ChangeAmmo(amount);
       }
 
       item.gameObject.SetActive(false);
