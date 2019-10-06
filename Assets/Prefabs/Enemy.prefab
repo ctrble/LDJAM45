@@ -236,6 +236,7 @@ MonoBehaviour:
   changeStrafeDirection: 0
   navSpeed: 0
   strafeDirection: {x: 0, y: 0, z: 0}
+  lookSpeed: 20
 --- !u!114 &3059427171235871332
 MonoBehaviour:
   m_ObjectHideFlags: 0

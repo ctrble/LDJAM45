@@ -29,12 +29,14 @@ public class Entity : MonoBehaviour, IDamagable, IKillable {
   }
 
   public void Kill() {
-    Component[] weapons = gameObject.GetComponentsInChildren(typeof(Weapon), true);
-    foreach (Weapon weapon in weapons) {
-      Debug.Log("unparenting on death: " + weapon);
-      weapon.transform.parent = null;
-    }
+    if (!gameObject.CompareTag("Player")) {
+      Component[] weapons = gameObject.GetComponentsInChildren(typeof(Weapon), true);
+      foreach (Weapon weapon in weapons) {
+        Debug.Log("unparenting on death: " + weapon);
+        weapon.transform.parent = null;
+      }
 
-    Destroy(gameObject);
+      Destroy(gameObject);
+    }
   }
 }

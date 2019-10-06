@@ -112,6 +112,17 @@ public class Weapon : MonoBehaviour {
       attackPosition = mainCamera.transform.position;
       attackDirection = crosshairs.position - mainCamera.transform.position;
     }
+    else {
+      // enemy aim is messy
+      float offsetX = Random.Range(-0.1f, 0.1f);
+      float offsetY = Random.Range(-0.1f, 0.1f);
+      float offsetZ = Random.Range(-0.1f, 0.1f);
+
+      Vector3 randomOffset = new Vector3(offsetX, offsetY, offsetZ);
+      attackDirection += randomOffset;
+
+      Debug.DrawRay(transform.position, attackDirection * 100, Color.blue);
+    }
 
     if (remainingAmmo >= ammoCost || weaponData.InfiniteAmmo) {
       ChangeAmmo(-ammoCost);

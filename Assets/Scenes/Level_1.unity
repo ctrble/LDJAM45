@@ -212,6 +212,11 @@ PrefabInstance:
       propertyPath: retreatDistanceFromPlayer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}
 --- !u!1 &459602598 stripped
@@ -1329,6 +1334,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 354630941907768087, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: remainingAmmo
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
         type: 3}
       propertyPath: distanceFromPlayer
@@ -1353,6 +1363,16 @@ PrefabInstance:
         type: 3}
       propertyPath: retreatDistanceFromPlayer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3059427171235871332, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: primaryAction
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}
@@ -2305,8 +2325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa1dfcda2350244c4be8a3c064f25750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  armor: 0
+  health: 100
+  armor: 100
 --- !u!54 &1306525599
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3050,6 +3070,11 @@ PrefabInstance:
       propertyPath: retreatDistanceFromPlayer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}
 --- !u!1 &2045493112
@@ -3454,6 +3479,11 @@ PrefabInstance:
       propertyPath: retreatDistanceFromPlayer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 080367cd4eba64e53ae21150584ee911,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 080367cd4eba64e53ae21150584ee911, type: 3}
 --- !u!1001 &5918411537361254078
@@ -3467,6 +3497,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574577701587342041, guid: b8191c9e4ecc649dc93c9e0284130037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2964034232908134975, guid: b8191c9e4ecc649dc93c9e0284130037,
         type: 3}

@@ -27,6 +27,7 @@ public class Enemy_Movement : MonoBehaviour {
   private float navSpeed;
   [SerializeField]
   private Vector3 strafeDirection;
+  public float lookSpeed;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -57,7 +58,7 @@ public class Enemy_Movement : MonoBehaviour {
     }
 
     // face the player
-    transform.LookAt(player);
+    LookAtPlayer();
 
     // about how fast is this thing
     navSpeed = Mathf.Lerp(navSpeed, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.5f);
@@ -79,6 +80,13 @@ public class Enemy_Movement : MonoBehaviour {
         }
       }
     }
+  }
+
+  void LookAtPlayer() {
+    Vector3 direction = player.position - transform.position;
+    Quaternion toRotation = Quaternion.LookRotation(direction.normalized);
+
+    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, lookSpeed * Time.deltaTime);
   }
 
   void LateUpdate() {
