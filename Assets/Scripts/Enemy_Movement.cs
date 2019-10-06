@@ -46,6 +46,16 @@ public class Enemy_Movement : MonoBehaviour {
   }
 
   void Update() {
+    if (navAgent.pathStatus == NavMeshPathStatus.PathInvalid || navAgent.pathStatus == NavMeshPathStatus.PathPartial) {
+      Debug.Log("yikes " + navAgent.pathStatus);
+      navAgent.ResetPath();
+
+      NavMeshHit hit;
+      if (navAgent.FindClosestEdge(out hit)) {
+        navAgent.SetDestination(hit.position);
+      }
+    }
+
     // face the player
     transform.LookAt(player);
 
@@ -102,6 +112,7 @@ public class Enemy_Movement : MonoBehaviour {
     }
 
     navAgent.destination = retreatPosition;
+
     if (navAgent.remainingDistance <= 1f) {
       // we made it, reset
       retreating = false;
