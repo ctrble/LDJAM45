@@ -28,6 +28,9 @@ public class Enemy_Movement : MonoBehaviour {
   [SerializeField]
   private Vector3 strafeDirection;
   public float lookSpeed;
+  private float cos30;
+  private float sin30;
+  public LayerMask floorMask;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -37,6 +40,9 @@ public class Enemy_Movement : MonoBehaviour {
     if (player == null) {
       player = GameObject.FindGameObjectWithTag("Player").transform;
     }
+
+    cos30 = Mathf.Cos(30);
+    sin30 = Mathf.Sin(30);
 
     retreating = false;
     // navAgent.destination = player.position;
@@ -66,20 +72,23 @@ public class Enemy_Movement : MonoBehaviour {
     // and how far away is it?
     currentDistanceFromPlayer = (transform.position - player.position).sqrMagnitude;
 
-    if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
-      DoRetreat();
-    }
-    else if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
-      if (CanSeePlayer()) {
-        FollowPlayer();
+    // if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
+    //   DoRetreat();
+    // }
+    // else
+    // if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
+    if (CanSeePlayer()) {
+      FollowPlayer();
 
-        // strafing
-        StrafeTimer();
-        if (navSpeed <= 0.01f) {
-          Strafe();
-        }
+      // strafing
+      StrafeTimer();
+
+      if (navSpeed <= 0.01f) {
+        OrbitPlayer();
+        //   Strafe();
       }
     }
+    // }
   }
 
   void LookAtPlayer() {
@@ -127,6 +136,36 @@ public class Enemy_Movement : MonoBehaviour {
       retreatPosition = Vector3.zero;
     }
   }
+
+  private void OrbitPlayer() {
+    Vector3 offsetFromLeader = player.transform.position - transform.position;
+    // if (offsetFromLeader.sqrMagnitude > MAX_ORBIT_RADIUS_SQR) {
+    //   moveTowardsLeader();
+    // }
+    // else if (offsetFromLeader.sqrMagnitude < MIN_ORBIT_RADIUS_SQR) {
+    //   moveAwayFromLeader();
+    // }
+    // else {
+    navAgent.destination = player.transform.position + RotateBy30Degrees(offsetFromLeader);
+    // }
+  }
+
+  Vector3 RotateBy30Degrees(Vector3 originalVector) {
+
+    return new Vector3((originalVector.x * cos30) - (originalVector.z * sin30), 0, (originalVector.x * sin30) + (originalVector.z * cos30));
+  }
+
+  // public static Vector3 RandomNavSphere(Vector3 origin, float dist) {
+  //   Vector3 randDirection = Random.insideUnitSphere * dist;
+
+  //   randDirection += origin;
+
+  //   NavMeshHit navHit;
+
+  //   NavMesh.SamplePosition(randDirection, out navHit, dist, floorMask);
+
+  //   return navHit.position;
+  // }
 
   void Strafe() {
     if (changeStrafeDirection) {
