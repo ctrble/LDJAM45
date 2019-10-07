@@ -14,15 +14,6 @@ public class Enemy_Movement : MonoBehaviour {
   public float maxDistanceFromPlayer = 12;
   public float minDistanceFromPlayer = 3;
 
-  [Header("Wandering")]
-  [SerializeField]
-  private float wanderTimeRemaining;
-  public float wanderDistance = 5f;
-  public float maxWanderInterval = 5f;
-  public float minWanderInterval = 2f;
-  private bool changeWanderDestination;
-  private Vector3 wanderDestination;
-
   [Header("Strafing")]
   [SerializeField]
   private float strafeTimeRemaining;
@@ -33,10 +24,28 @@ public class Enemy_Movement : MonoBehaviour {
   private float cosAngle;
   private float sinAngle;
 
+  [Header("Searching")]
+  [SerializeField]
+  private float searchTimeRemaining;
+  public float searchTime = 1.5f;
+  private bool giveUpSearch;
+  private Vector3 lastKnownPlayerPosition;
+
+  [Header("Wandering")]
+  [SerializeField]
+  private float wanderTimeRemaining;
+  public float wanderDistance = 5f;
+  public float maxWanderInterval = 5f;
+  public float minWanderInterval = 2f;
+  private bool changeWanderDestination;
+  private Vector3 wanderDestination;
+
   // gizmo debugs
+  private bool following;
   private bool retreating;
   private bool orbiting;
   private bool wandering;
+  private bool searching;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -48,26 +57,45 @@ public class Enemy_Movement : MonoBehaviour {
     }
 
     wanderDestination = RandomNavSphere(transform.position, wanderDistance);
+    giveUpSearch = true;
+    lastKnownPlayerPosition = Vector3.zero;
 
     // orbiting angles
     cosAngle = Mathf.Cos(orbitAngle);
     sinAngle = Mathf.Sin(orbitAngle);
 
     // debugs
+    following = false;
     retreating = false;
     orbiting = false;
     wandering = false;
+    searching = false;
   }
 
   void Update() {
     CheckForBadPaths();
 
+    // Vector3 lastKnownPlayerPosition = Vector3.zero;
     if (CanSeePlayer()) {
       StrafeTimer();
       OrbitPlayer();
       LookAtPlayer();
+
+      giveUpSearch = false;
+      lastKnownPlayerPosition = player.position;
+    }
+    else if (!CanSeePlayer() && !giveUpSearch) {
+      SearchTimer();
+      // following = false;
+      // retreating = false;
+      // orbiting = false;
+      // wandering = false;
+      // searching = true;
+      // navAgent.destination = RandomNavSphere(lastKnownPlayerPosition, wanderDistance * 0.5f);
+      // // navAgent.destination = lastKnownPlayerPosition;
     }
     else {
+      giveUpSearch = true;
       WanderTimer();
       Wander();
     }
@@ -105,6 +133,17 @@ public class Enemy_Movement : MonoBehaviour {
     }
   }
 
+  void SearchTimer() {
+    if (!giveUpSearch) {
+      searchTimeRemaining -= Time.deltaTime;
+      if (searchTimeRemaining <= 0f) {
+        float newSearchTime = searchTime;
+        giveUpSearch = true;
+        searchTimeRemaining = newSearchTime;
+      }
+    }
+  }
+
   bool CanSeePlayer() {
     NavMeshHit hit;
     // true if didn't hit anything between the enemy and the player
@@ -119,19 +158,28 @@ public class Enemy_Movement : MonoBehaviour {
     float minDistanceFromLeader = minDistanceFromPlayer * minDistanceFromPlayer;
 
     if (distanceFromLeader > maxDistanceFromLeader) {
+      following = true;
       retreating = false;
       orbiting = false;
+      wandering = false;
+      searching = false;
       MoveTowardsPlayer();
     }
     else if (distanceFromLeader < minDistanceFromLeader) {
+      following = false;
       retreating = true;
       orbiting = false;
+      wandering = false;
+      searching = false;
       MoveAwayFromPlayer(directionFromPlayer);
     }
     else {
       // orbit
+      following = false;
       retreating = false;
       orbiting = true;
+      wandering = false;
+      searching = false;
       StrafeAroundPlayer(directionFromPlayer);
     }
   }
@@ -161,14 +209,27 @@ public class Enemy_Movement : MonoBehaviour {
   }
 
   void Wander() {
-    wandering = true;
+    following = false;
     retreating = false;
     orbiting = false;
+    wandering = true;
+    searching = true;
     if (changeWanderDestination) {
       wanderDestination = RandomNavSphere(transform.position, wanderDistance);
       changeWanderDestination = false;
     }
     navAgent.destination = wanderDestination;
+  }
+
+  void Search() {
+    following = false;
+    retreating = false;
+    orbiting = false;
+    wandering = false;
+    searching = true;
+
+    // navAgent.destination = RandomNavSphere(lastKnownPlayerPosition, wanderDistance * 0.5f);
+    navAgent.destination = lastKnownPlayerPosition;
   }
 
   Vector3 RotateBy30Degrees(Vector3 originalVector) {
@@ -187,7 +248,7 @@ public class Enemy_Movement : MonoBehaviour {
 
   void CheckForBadPaths() {
     if (navAgent.pathStatus == NavMeshPathStatus.PathInvalid || navAgent.pathStatus == NavMeshPathStatus.PathPartial) {
-      Debug.Log("yikes " + navAgent.pathStatus);
+      Debug.Log("yikes we got pretty lost: " + navAgent.pathStatus);
       navAgent.ResetPath();
 
       // this sucks, just run to a wall
@@ -200,7 +261,10 @@ public class Enemy_Movement : MonoBehaviour {
 
   private void OnDrawGizmos() {
     if (EditorApplication.isPlaying) {
-      if (retreating) {
+      if (following) {
+        Gizmos.color = Color.red;
+      }
+      else if (retreating) {
         Gizmos.color = Color.yellow;
       }
       else if (orbiting) {
@@ -209,9 +273,10 @@ public class Enemy_Movement : MonoBehaviour {
       else if (wandering) {
         Gizmos.color = Color.green;
       }
-      else {
+      else if (searching) {
         Gizmos.color = Color.magenta;
       }
+
       if (navAgent.destination != Vector3.zero) {
         Gizmos.DrawSphere(navAgent.destination, 0.5f);
       }
