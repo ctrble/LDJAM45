@@ -153,6 +153,11 @@ MonoBehaviour:
   timeRemaining: 0
   canAttack: 0
   remainingAmmo: 3
+  heldByPlayer: 0
+  shotEffect: {fileID: 6179646243131832458, guid: 49f495f0d1a26468391a98b95a0cceb5,
+    type: 3}
+  amountToPool: 20
+  pooledShotEffects: []
 --- !u!135 &1838579250
 SphereCollider:
   m_ObjectHideFlags: 0

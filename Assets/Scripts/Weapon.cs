@@ -27,6 +27,10 @@ public class Weapon : MonoBehaviour {
 
   public bool heldByPlayer = false;
 
+  public GameObject shotEffect;
+  public int amountToPool;
+  public List<GameObject> pooledShotEffects;
+
 
   void OnEnable() {
     // player only weapon stuff
@@ -51,6 +55,30 @@ public class Weapon : MonoBehaviour {
     if (spriteRenderer != null) {
       spriteRenderer.sprite = weaponData.ItemIcon;
     }
+
+    PoolShotEffects();
+  }
+
+  void PoolShotEffects() {
+    if (shotEffect != null) {
+      pooledShotEffects = new List<GameObject>();
+      for (int i = 0; i < amountToPool; i++) {
+        GameObject obj = Instantiate(shotEffect, transform);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        obj.SetActive(false);
+        pooledShotEffects.Add(obj);
+      }
+    }
+  }
+
+  public GameObject GetPooledObject() {
+    for (int i = 0; i < pooledShotEffects.Count; i++) {
+      if (!pooledShotEffects[i].activeInHierarchy) {
+        return pooledShotEffects[i];
+      }
+    }
+    return null;
   }
 
   void Update() {
@@ -87,6 +115,17 @@ public class Weapon : MonoBehaviour {
     }
   }
 
+  void StartShotEffect() {
+    GameObject effect = GetPooledObject();
+    if (effect != null) {
+      effect.SetActive(true);
+
+      ParticleSystem particles = effect.GetComponent<ParticleSystem>();
+      particles.Clear();
+      particles.Play();
+    }
+  }
+
   void DisarmEnemy(GameObject enemy) {
     Weapon weapon = enemy.GetComponentInChildren<Weapon>();
     if (weapon != null && weapon.CompareTag("Item")) {
@@ -101,6 +140,9 @@ public class Weapon : MonoBehaviour {
     Vector3 attackDirection = direction;
 
     if (remainingAmmo >= ammoCost || weaponData.InfiniteAmmo) {
+      if (!weaponData.InfiniteAmmo) {
+        StartShotEffect();
+      }
       ChangeAmmo(-ammoCost);
 
       bool hitCast = Physics.Raycast(attackPosition, attackDirection, out hit, weaponData.AttackRange, hitLayer);
