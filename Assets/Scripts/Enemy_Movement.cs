@@ -14,6 +14,7 @@ public class Enemy_Movement : MonoBehaviour {
   public float currentDistanceFromPlayer;
   public Vector3 retreatPosition = Vector3.zero;
   public bool retreating;
+  public bool orbiting;
   public float strafeSpeed = 2;
   public float maxStrafeInterval;
   public float minStrafeInterval;
@@ -28,8 +29,9 @@ public class Enemy_Movement : MonoBehaviour {
   [SerializeField]
   private Vector3 strafeDirection;
   public float lookSpeed;
-  private float cos30;
-  private float sin30;
+  private float orbitAngle = 15;
+  private float cosAngle;
+  private float sinAngle;
   public LayerMask floorMask;
 
   void OnEnable() {
@@ -41,10 +43,11 @@ public class Enemy_Movement : MonoBehaviour {
       player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    cos30 = Mathf.Cos(30);
-    sin30 = Mathf.Sin(30);
+    cosAngle = Mathf.Cos(orbitAngle);
+    sinAngle = Mathf.Sin(orbitAngle);
 
     retreating = false;
+    orbiting = false;
     // navAgent.destination = player.position;
     strafeDirection = new Vector3(Random.Range(-1, 2), 0, Random.Range(-1, 2));
     lastPosition = transform.position;
@@ -81,7 +84,7 @@ public class Enemy_Movement : MonoBehaviour {
     // FollowPlayer();
 
     // strafing
-    // StrafeTimer();
+    StrafeTimer();
 
     // if (navSpeed <= 0.01f) {
     //   Strafe();
@@ -155,31 +158,44 @@ public class Enemy_Movement : MonoBehaviour {
     if (distanceFromLeader > maxDistanceFromLeader) {
       // moveTowardsLeader();
       retreating = false;
+      orbiting = false;
       Debug.Log(gameObject.name + " moving towards " + player.position);
       navAgent.destination = player.position;
     }
     else if (distanceFromLeader < minDistanceFromLeader) {
       // moveAwayFromLeader();
       retreating = true;
+      orbiting = false;
       // navAgent.destination = -offsetFromLeader.normalized;
       // Vector3 worldDirection = transform.TransformDirection(-transform.forward);
       // Debug.Log(worldDirection);
 
-      Vector3 newPosition = -transform.forward;
+      Vector3 newPosition = transform.position - offsetFromLeader.normalized;
       Debug.Log(gameObject.name + " moving away " + newPosition);
       navAgent.destination = newPosition;
     }
     else {
       // orbit
-      // Debug.Log(gameObject.name + " orbiting");
+      retreating = false;
+      orbiting = true;
+      Vector3 rotatedPosition = player.transform.position - offsetFromLeader.normalized + RotateBy30Degrees(offsetFromLeader);
       // Vector3 rotatedPosition = player.transform.position + RotateBy30Degrees(offsetFromLeader);
-      // navAgent.destination = rotatedPosition;
+      if (changeStrafeDirection) {
+        // strafeDirection = new Vector3(Random.Range(-1, 2), 0, Random.Range(-1, 2));
+        orbitAngle = -orbitAngle;
+        cosAngle = Mathf.Cos(orbitAngle);
+        sinAngle = Mathf.Sin(orbitAngle);
+        changeStrafeDirection = false;
+      }
+      rotatedPosition += strafeDirection;
+      Debug.Log(gameObject.name + " orbiting " + rotatedPosition);
+      navAgent.destination = rotatedPosition;
     }
   }
 
   Vector3 RotateBy30Degrees(Vector3 originalVector) {
-
-    return new Vector3((originalVector.x * cos30) - (originalVector.z * sin30), 0, (originalVector.x * sin30) + (originalVector.z * cos30));
+    Vector3 rotated = new Vector3((originalVector.x * cosAngle) - (originalVector.z * sinAngle), 0, (originalVector.x * sinAngle) + (originalVector.z * cosAngle));
+    return rotated;
   }
 
   // public static Vector3 RandomNavSphere(Vector3 origin, float dist) {
@@ -211,6 +227,7 @@ public class Enemy_Movement : MonoBehaviour {
       timeRemaining -= Time.deltaTime;
       if (timeRemaining <= 0f) {
         float newStrafeInterval = Random.Range(minStrafeInterval, maxStrafeInterval);
+        // float newStrafeInterval = 3;
         changeStrafeDirection = true;
         timeRemaining = newStrafeInterval;
       }
@@ -221,6 +238,9 @@ public class Enemy_Movement : MonoBehaviour {
     if (EditorApplication.isPlaying) {
       if (retreating) {
         Gizmos.color = Color.yellow;
+      }
+      else if (orbiting) {
+        Gizmos.color = Color.blue;
       }
       else {
         Gizmos.color = Color.magenta;

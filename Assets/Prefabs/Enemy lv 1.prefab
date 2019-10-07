@@ -229,9 +229,10 @@ MonoBehaviour:
   currentDistanceFromPlayer: 0
   retreatPosition: {x: 0, y: 0, z: 0}
   retreating: 0
+  orbiting: 0
   strafeSpeed: 2
-  maxStrafeInterval: 0
-  minStrafeInterval: 0
+  maxStrafeInterval: 6
+  minStrafeInterval: 3
   timeRemaining: 0
   changeStrafeDirection: 0
   navSpeed: 0
@@ -260,6 +261,9 @@ MonoBehaviour:
   angleFromPlayer: 0
   attackAngleThreshold: 20
   enemyAccuracy: 0.1
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &3455806059681964944
 PrefabInstance:
   m_ObjectHideFlags: 0
