@@ -16017,6 +16017,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minDistanceFromPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: maxDistanceFromPlayer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}
       propertyPath: hitLayer.m_Bits
@@ -16668,6 +16678,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minDistanceFromPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: maxDistanceFromPlayer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}
@@ -31675,6 +31695,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minDistanceFromPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: maxDistanceFromPlayer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}

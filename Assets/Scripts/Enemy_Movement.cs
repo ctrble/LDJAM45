@@ -70,7 +70,7 @@ public class Enemy_Movement : MonoBehaviour {
     navSpeed = Mathf.Lerp(navSpeed, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.5f);
 
     // and how far away is it?
-    currentDistanceFromPlayer = (transform.position - player.position).sqrMagnitude;
+    // currentDistanceFromPlayer = (transform.position - player.position).magnitude;
 
     // if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
     //   DoRetreat();
@@ -78,16 +78,25 @@ public class Enemy_Movement : MonoBehaviour {
     // else
     // if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
     // if (CanSeePlayer()) {
-    FollowPlayer();
+    // FollowPlayer();
 
     // strafing
-    StrafeTimer();
+    // StrafeTimer();
 
-    if (navSpeed <= 0.01f) {
-      OrbitPlayer();
-      //   Strafe();
-    }
+    // if (navSpeed <= 0.01f) {
+    //   Strafe();
     // }
+    // }
+    // }
+    // if (currentDistanceFromPlayer >= minDistanceFromPlayer) {
+    //   // move towards
+    //   Vector3 offsetFromLeader = player.transform.position - transform.position;
+    // }
+    // else if (currentDistanceFromPlayer) {
+    //   // move away
+    // }
+    // else {
+    OrbitPlayer();
     // }
   }
 
@@ -139,15 +148,33 @@ public class Enemy_Movement : MonoBehaviour {
 
   private void OrbitPlayer() {
     Vector3 offsetFromLeader = player.transform.position - transform.position;
-    // if (offsetFromLeader.sqrMagnitude > MAX_ORBIT_RADIUS_SQR) {
-    //   moveTowardsLeader();
-    // }
-    // else if (offsetFromLeader.sqrMagnitude < MIN_ORBIT_RADIUS_SQR) {
-    //   moveAwayFromLeader();
-    // }
-    // else {
-    navAgent.destination = player.transform.position + RotateBy30Degrees(offsetFromLeader);
-    // }
+    float distanceFromLeader = offsetFromLeader.sqrMagnitude;
+    float maxDistanceFromLeader = maxDistanceFromPlayer * maxDistanceFromPlayer;
+    float minDistanceFromLeader = minDistanceFromPlayer * minDistanceFromPlayer;
+
+    if (distanceFromLeader > maxDistanceFromLeader) {
+      // moveTowardsLeader();
+      retreating = false;
+      Debug.Log(gameObject.name + " moving towards " + player.position);
+      navAgent.destination = player.position;
+    }
+    else if (distanceFromLeader < minDistanceFromLeader) {
+      // moveAwayFromLeader();
+      retreating = true;
+      // navAgent.destination = -offsetFromLeader.normalized;
+      // Vector3 worldDirection = transform.TransformDirection(-transform.forward);
+      // Debug.Log(worldDirection);
+
+      Vector3 newPosition = -transform.forward;
+      Debug.Log(gameObject.name + " moving away " + newPosition);
+      navAgent.destination = newPosition;
+    }
+    else {
+      // orbit
+      // Debug.Log(gameObject.name + " orbiting");
+      // Vector3 rotatedPosition = player.transform.position + RotateBy30Degrees(offsetFromLeader);
+      // navAgent.destination = rotatedPosition;
+    }
   }
 
   Vector3 RotateBy30Degrees(Vector3 originalVector) {
@@ -192,7 +219,12 @@ public class Enemy_Movement : MonoBehaviour {
 
   private void OnDrawGizmos() {
     if (EditorApplication.isPlaying) {
-      Gizmos.color = Color.magenta;
+      if (retreating) {
+        Gizmos.color = Color.yellow;
+      }
+      else {
+        Gizmos.color = Color.magenta;
+      }
       if (navAgent.destination != Vector3.zero) {
         Gizmos.DrawSphere(navAgent.destination, 0.5f);
       }
