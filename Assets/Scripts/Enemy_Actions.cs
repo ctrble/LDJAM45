@@ -13,6 +13,7 @@ public class Enemy_Actions : MonoBehaviour {
   public float angleFromPlayer = 0;
   public float attackAngleThreshold = 20f;
   public float enemyAccuracy = 0.1f;
+  public LayerMask hitLayer;
 
   void Start() {
     if (enemyEntity == null) {
@@ -40,8 +41,15 @@ public class Enemy_Actions : MonoBehaviour {
     Vector3 playerDirection = player.position - transform.position;
     angleFromPlayer = Vector3.Angle(playerDirection, transform.forward);
 
+    // check for visibility and prevent friendly fire
+    RaycastHit hit;
+    bool canSeePlayer = false;
+    if (Physics.Raycast(transform.position, playerDirection.normalized, out hit, 50f)) {
+      canSeePlayer = hit.transform.CompareTag("Player");
+    }
+
     // close enough to attack?
-    if (angleFromPlayer <= attackAngleThreshold) {
+    if (canSeePlayer && (angleFromPlayer <= attackAngleThreshold)) {
       primaryAction = true;
     }
     else {

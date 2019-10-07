@@ -77,17 +77,17 @@ public class Enemy_Movement : MonoBehaviour {
     // }
     // else
     // if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
-    if (CanSeePlayer()) {
-      FollowPlayer();
+    // if (CanSeePlayer()) {
+    FollowPlayer();
 
-      // strafing
-      StrafeTimer();
+    // strafing
+    StrafeTimer();
 
-      if (navSpeed <= 0.01f) {
-        OrbitPlayer();
-        //   Strafe();
-      }
+    if (navSpeed <= 0.01f) {
+      OrbitPlayer();
+      //   Strafe();
     }
+    // }
     // }
   }
 
