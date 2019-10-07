@@ -38,15 +38,6 @@ public class Weapon : MonoBehaviour {
       if (itemCanvas == null) {
         itemCanvas = GameObject.FindGameObjectWithTag("Item Canvas").GetComponent<Item_Canvas>();
       }
-
-      // if (mainCamera == null) {
-      //   mainCamera = Camera.main;
-      // }
-
-      // if (crosshairs == null) {
-      //   crosshairs = GameObject.FindGameObjectWithTag("Crosshairs").transform;
-      // }
-
     }
 
     if (spriteRenderer == null) {
