@@ -86,13 +86,7 @@ public class Enemy_Movement : MonoBehaviour {
     }
     else if (!CanSeePlayer() && !giveUpSearch) {
       SearchTimer();
-      // following = false;
-      // retreating = false;
-      // orbiting = false;
-      // wandering = false;
-      // searching = true;
-      // navAgent.destination = RandomNavSphere(lastKnownPlayerPosition, wanderDistance * 0.5f);
-      // // navAgent.destination = lastKnownPlayerPosition;
+      Search();
     }
     else {
       giveUpSearch = true;
