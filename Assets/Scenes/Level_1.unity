@@ -16027,6 +16027,16 @@ PrefabInstance:
       propertyPath: maxDistanceFromPlayer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minStrafeInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 270
+      objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}
       propertyPath: hitLayer.m_Bits
@@ -16688,6 +16698,16 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistanceFromPlayer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minStrafeInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}
@@ -31705,6 +31725,16 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistanceFromPlayer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: minStrafeInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 364536869724963877, guid: 56e485068441c42309c448a3ce4dd2f2,
+        type: 3}
+      propertyPath: lookSpeed
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 3059427171235871332, guid: 56e485068441c42309c448a3ce4dd2f2,
         type: 3}

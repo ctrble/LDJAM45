@@ -223,21 +223,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64cc86cfac8cc4a958801c5866b8cf83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookSpeed: 145
   maxDistanceFromPlayer: 12
-  retreatDistanceFromPlayer: 3
   minDistanceFromPlayer: 2
-  currentDistanceFromPlayer: 0
-  retreatPosition: {x: 0, y: 0, z: 0}
-  retreating: 0
-  orbiting: 0
-  strafeSpeed: 2
+  timeRemaining: 0
   maxStrafeInterval: 6
   minStrafeInterval: 3
-  timeRemaining: 0
-  changeStrafeDirection: 0
-  navSpeed: 0
-  strafeDirection: {x: 0, y: 0, z: 0}
-  lookSpeed: 20
   floorMask:
     serializedVersion: 2
     m_Bits: 1024

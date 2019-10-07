@@ -8,24 +8,20 @@ public class Enemy_Movement : MonoBehaviour {
 
   private NavMeshAgent navAgent;
   private Transform player;
+  public float lookSpeed;
   public float maxDistanceFromPlayer = 12;
   public float minDistanceFromPlayer = 3;
-  public bool retreating;
-  public bool orbiting;
-  public float strafeSpeed = 2;
-  public float maxStrafeInterval;
-  public float minStrafeInterval;
   [SerializeField]
   private float timeRemaining;
-  [SerializeField]
-  private bool changeStrafeDirection;
-  [SerializeField]
-  private Vector3 strafeDirection;
-  public float lookSpeed;
+  public float maxStrafeInterval;
+  public float minStrafeInterval;
+  private bool changeOrbitAngle;
   private float orbitAngle = 15;
   private float cosAngle;
   private float sinAngle;
   public LayerMask floorMask;
+  private bool retreating;
+  private bool orbiting;
 
   void OnEnable() {
     if (navAgent == null) {
@@ -36,10 +32,9 @@ public class Enemy_Movement : MonoBehaviour {
       player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    // orbiting angles
     cosAngle = Mathf.Cos(orbitAngle);
     sinAngle = Mathf.Sin(orbitAngle);
-
-    strafeDirection = new Vector3(Random.Range(-1, 2), 0, Random.Range(-1, 2));
 
     // debugs
     retreating = false;
@@ -49,17 +44,26 @@ public class Enemy_Movement : MonoBehaviour {
   void Update() {
     CheckForBadPaths();
 
-    // LookAtPlayer();
     StrafeTimer();
     OrbitPlayer();
+    LookAtPlayer();
+  }
+
+  void LookAtPlayer() {
+    Vector3 direction = player.position - transform.position;
+    Quaternion toRotation = Quaternion.LookRotation(direction.normalized);
+    Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, toRotation, lookSpeed * Time.deltaTime);
+
+    transform.rotation = newRotation;
+    Debug.DrawRay(transform.position, transform.forward * 3, Color.green);
   }
 
   void StrafeTimer() {
-    if (!changeStrafeDirection) {
+    if (!changeOrbitAngle) {
       timeRemaining -= Time.deltaTime;
       if (timeRemaining <= 0f) {
         float newStrafeInterval = Random.Range(minStrafeInterval, maxStrafeInterval);
-        changeStrafeDirection = true;
+        changeOrbitAngle = true;
         timeRemaining = newStrafeInterval;
       }
     }
@@ -107,17 +111,16 @@ public class Enemy_Movement : MonoBehaviour {
 
   void StrafeAroundPlayer(Vector3 direction) {
     Vector3 rotatedPosition = player.transform.position - direction.normalized + RotateBy30Degrees(direction);
-    UpdateStrafeDirection();
-    rotatedPosition += strafeDirection;
+    UpdateStrafeAngle();
     navAgent.destination = rotatedPosition;
   }
 
-  void UpdateStrafeDirection() {
-    if (changeStrafeDirection) {
+  void UpdateStrafeAngle() {
+    if (changeOrbitAngle) {
       orbitAngle = -orbitAngle;
       cosAngle = Mathf.Cos(orbitAngle);
       sinAngle = Mathf.Sin(orbitAngle);
-      changeStrafeDirection = false;
+      changeOrbitAngle = false;
     }
   }
 
