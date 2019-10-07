@@ -66,20 +66,20 @@ public class Enemy_Movement : MonoBehaviour {
     // and how far away is it?
     currentDistanceFromPlayer = (transform.position - player.position).sqrMagnitude;
 
-    // if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
-    //   DoRetreat();
-    // }
-    // else if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
-    if (CanSeePlayer()) {
-      FollowPlayer();
-
-      // strafing
-      // StrafeTimer();
-      // if (navSpeed <= 0.01f) {
-      //   Strafe();
-      // }
+    if (currentDistanceFromPlayer < minDistanceFromPlayer || retreating) {
+      DoRetreat();
     }
-    // }
+    else if (currentDistanceFromPlayer >= minDistanceFromPlayer && !retreating) {
+      if (CanSeePlayer()) {
+        FollowPlayer();
+
+        // strafing
+        StrafeTimer();
+        if (navSpeed <= 0.01f) {
+          Strafe();
+        }
+      }
+    }
   }
 
   void LookAtPlayer() {

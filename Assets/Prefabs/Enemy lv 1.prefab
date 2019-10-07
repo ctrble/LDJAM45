@@ -256,7 +256,7 @@ MonoBehaviour:
   primaryAction: 0
   angleFromPlayer: 0
   attackAngleThreshold: 20
-  enemyAccuracy: 0.2
+  enemyAccuracy: 0.1
 --- !u!1001 &3455806059681964944
 PrefabInstance:
   m_ObjectHideFlags: 0
