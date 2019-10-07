@@ -252,28 +252,4 @@ public class Enemy_Movement : MonoBehaviour {
       }
     }
   }
-
-  private void OnDrawGizmos() {
-    if (EditorApplication.isPlaying) {
-      if (following) {
-        Gizmos.color = Color.red;
-      }
-      else if (retreating) {
-        Gizmos.color = Color.yellow;
-      }
-      else if (orbiting) {
-        Gizmos.color = Color.blue;
-      }
-      else if (wandering) {
-        Gizmos.color = Color.green;
-      }
-      else if (searching) {
-        Gizmos.color = Color.magenta;
-      }
-
-      if (navAgent.destination != Vector3.zero) {
-        Gizmos.DrawSphere(navAgent.destination, 0.5f);
-      }
-    }
-  }
 }
